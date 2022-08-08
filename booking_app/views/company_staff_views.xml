@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="company_staff_form" model="ir.ui.view">
+            <field name="name">company.staff.form</field>
+            <field name="model">company.staff</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="bday"/>
+                        <field name="position"/>
+                        <field name="email"/>
+                        <field name="team_id"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="company_staff_action" model="ir.actions.act_window">
+            <field name="name">Company staff</field>
+            <field name="res_model">company.staff</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

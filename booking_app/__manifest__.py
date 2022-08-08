@@ -1,0 +1,16 @@
+{
+    'name': 'Booking room',
+    'version': '1.0',
+    'application': True,
+    'depends': ['base'],
+    'data': ['security/ir.model.access.csv',
+             'views/room_views.xml',
+             'views/room_menus.xml',
+             'views/room_booking_menu.xml',
+             'views/room_booking_views.xml',
+             'views/company_unit_views.xml',
+             'views/company_unit_menu.xml',
+             'views/company_staff_views.xml',
+             'views/company_staff_menu.xml'],
+    'license': 'GPL-3',
+}

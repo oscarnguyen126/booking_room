@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="room_menu_action"
+              name="Meeting Room"
+              action="booking_app.test_room_action"/>
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="room_form" model="ir.ui.view">
+            <field name="name">room.room.form</field>
+            <field name="model">room.room</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="infra" string="Infrastructure"/>
+                        <field name="status"/>
+                    </group>
+                    <group>
+                        <notebook>
+                            <page string="Booking list">
+                                <group>
+                                    <field name="booking_ids"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="test_room_action" model="ir.actions.act_window">
+            <field name="name">Meeting room</field>
+            <field name="res_model">room.room</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
