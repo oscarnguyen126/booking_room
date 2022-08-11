@@ -1,6 +1,5 @@
 from odoo import models, fields, api
-from odoo.exceptions import UserError
-import re
+from odoo.exceptions import ValidationError
 
 
 class Client(models.Model):
@@ -13,3 +12,9 @@ class Client(models.Model):
     email = fields.Char(string='Email address')
     team_id = fields.Many2one('company.unit')
     
+    
+    @api.constrains('email')
+    def validate_email(self):
+        for rec in self:
+            if not '@' in rec.email:
+                raise ValidationError('Invalid email')

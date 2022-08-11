@@ -10,16 +10,28 @@
                     <field name="start_time"/>
                     <field name="end_time"/>
                     <field name="description"/>
-                    <field name="staff_id"/>
-                    <field name="status"/>
+                    <field name="staff_ids" widget="many2manyattendee"/>
                 </tree>
             </field>
         </record>
 
+
+        <record id="room_booking_calendar" model="ir.ui.view">
+            <field name="name">room.booking.calendar</field>
+            <field name="model">room.booking</field>
+            <field name="arch" type="xml">
+                <calendar string="Booking calendar" date_start="start_time" date_stop="end_time" mode="month" quick_add="False" color="room_id">
+                    <field name="description"/>
+                    <field name="room_id" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+
+
         <record id="booking_action" model="ir.actions.act_window">
             <field name="name">Booking list</field>
             <field name="res_model">room.booking</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">calendar,tree</field>
         </record>
     </data>
 </odoo>
