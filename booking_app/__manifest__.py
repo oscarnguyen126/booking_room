@@ -9,7 +9,6 @@
              'views/room_booking_menu.xml',
              'views/room_booking_views.xml',
              'views/company_unit_views.xml',
-             'views/company_unit_menu.xml',
              'views/company_staff_views.xml',
              'views/company_staff_menu.xml'],
     'license': 'GPL-3',

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <menuitem id="room_booking_menu_action"
-              name="Booking page"
+              name="Booking calendar"
               action="booking_action"/>
 </odoo>
