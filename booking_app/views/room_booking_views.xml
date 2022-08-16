@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <record id="room_booking_tree" model="ir.ui.view">
-            <field name="name">room.booking.tree</field>
+        <record id="room_booking_form" model="ir.ui.view">
+            <field name="name">room.booking.form</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <tree>
-                    <field name="room_id"/>
-                    <field name="start_time"/>
-                    <field name="end_time"/>
-                    <field name="description"/>
-                    <field name="staff_ids" widget="many2manyattendee"/>
-                </tree>
+                <form>
+                    <group>
+                        <field name="room_id"/>
+                        <field name="start_time"/>
+                        <field name="stop_time"/>
+                        <field name="description"/>
+                        <field name="staff_ids" widget="many2manyattendee"/>
+                        <field name="booking_cycle"/>
+                        <field name="cycle_time" attrs="{'invisible': [('booking_cycle','=',False)]}"/>
+                        <field name="to_date" attrs="{'invisible': [('booking_cycle','=',False)]}"/>
+                    </group>
+                </form>
             </field>
         </record>
 
@@ -20,7 +25,7 @@
             <field name="name">room.booking.calendar</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <calendar string="Booking calendar" date_start="start_time" date_stop="end_time" mode="month" quick_add="False" color="room_id">
+                <calendar string="Booking calendar" date_start="start_time" date_stop="stop_time" mode="month" quick_add="False" color="room_id">
                     <field name="description"/>
                     <field name="room_id" filters="1" invisible="1"/>
                 </calendar>
@@ -31,7 +36,7 @@
         <record id="booking_action" model="ir.actions.act_window">
             <field name="name">Booking list</field>
             <field name="res_model">room.booking</field>
-            <field name="view_mode">calendar,tree</field>
+            <field name="view_mode">calendar,form</field>
         </record>
     </data>
 </odoo>
