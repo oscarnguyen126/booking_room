@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="mail_bookroom_confirmation" model="mail.template">
+            <field name="name">Confirmation Email</field>
+            <field name="model_id" ref="booking_app.model_room_booking"/>
+            <field name="subject">{{ object.room_id.name }} </field>
+            <field name="partner_to">{{ object.partner_ids.id }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+               Dear, <t t-out="object.partner_ids.name or ''">Brandon Freeman</t>
+                </div>
+                <p>This mail to confirm the meeting that will take place at {{ object.room_id.start_time }}.</p>
+            </field>
+
+            <field name="auto_delete" eval="True"/>
+        </record>
+    </data>
+
+</odoo>
