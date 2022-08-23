@@ -6,13 +6,8 @@
             <field name="model">room.room</field>
             <field name="arch" type="xml">
                 <form>
-                    <tree>
-                        <header>
-                            <field name="status" widget="statusbar" statusbar_visible="available,booking,used"/>
-                        </header>
-                    </tree>
                     <group>
-                        <field name="name" attrs="{'invisible': [('status','=', 'used')]}"/>
+                        <field name="name"/>
                         <field name="infra" string="Infrastructure"/>
                         <field name="location"></field>
                     </group>
