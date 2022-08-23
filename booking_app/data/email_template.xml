@@ -5,17 +5,30 @@
         <record id="mail_bookroom_confirmation" model="mail.template">
             <field name="name">Confirmation Email</field>
             <field name="model_id" ref="booking_app.model_room_booking"/>
-            <field name="subject">{{ object.room_id.name }} </field>
-            <field name="partner_to">{{ object.partner_ids.id }}</field>
+            <field name="subject">{{ object.description }} </field>
+            <field name="email_from">{{ (object.requester.email_formatted or user.email_formatted) }}</field>
+            <field name="email_to">{{ object.partner_ids.id }}</field>
             <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px;">
-               Dear, <t t-out="object.partner_ids.name or ''">Brandon Freeman</t>
-                </div>
-                <p>This mail to confirm the meeting that will take place at {{ object.room_id.start_time }}.</p>
-            </field>
+                <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear Mr/Mrs/Ms <t t-foreach="object.partner_ids" t-as="partner">
+                    <t t-esc="partner.name or ''"></t>, 
+                        </t>
+                        <br/>
+                        <br/>        
+                        This is the notice of the meeting that will take place in <t t-out="object.room_id.name"/> at <t t-out="object.start_time"/><br/> 
+        The meeting will be presided by Mr/Mrs/Ms <t t-out="object.requester.name"/> about <t t-out="object.description"/><br/>
+        Please arrive on time!<br/>
+        <br/>
+        <br/>
+        Best regards,
+                    <br/>
+                </p>
+            </div>
+        </field>
 
-            <field name="auto_delete" eval="True"/>
-        </record>
-    </data>
+        <field name="auto_delete" eval="True"/>
+    </record>
+</data>
 
 </odoo>

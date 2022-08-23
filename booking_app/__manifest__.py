@@ -4,6 +4,7 @@
     'application': True,
     'depends': ['base', 'mail','sale'],
     'data': ['security/ir.model.access.csv',
+             'security/security.xml',
              'views/room_views.xml',
              'views/room_booking_menu.xml',
              'views/room_booking_views.xml',

@@ -1,3 +1,4 @@
+from time import timezone
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 from datetime import datetime, timedelta
@@ -7,28 +8,26 @@ class Booking(models.Model):
     _name = 'room.booking'
     _description = 'Room booking'
     _order = 'start_time asc'
-    _rec_name = 'room_id'
+    _rec_name = 'description'
 
     room_id = fields.Many2one('room.room', string='Meeting room',required=True)
     start_time = fields.Datetime(string='Date from', required=True)
     stop_time = fields.Datetime(string='Date to', required=True)
-    description = fields.Char(string='Content of meeting')
-    booking_cycle = fields.Boolean()
-    cycle_time = fields.Selection([('week','Week'),('month','Month'),('year','Year')])
-    to_date = fields.Date()
-    requester = fields.Many2many('res.users', index=True, default=lambda self: self.env.user, required=True)
-    partner_ids = fields.Many2many('res.partner')
-
+    description = fields.Char(string='Contents of the meeting', required=True)
+    status = fields.Selection([('booking','Booking'),('confirmed','Confirmed'),], default='booking')
+    requester = fields.Many2many('res.users', 'room_booking_res_user_rel', 'booking_id', 'user_id', string='Requester', index=True, default=lambda self: self.env.user, required=True)
+    department = fields.Many2one('res.groups')
+    partner_ids = fields.Many2many('res.partner', 'room_booking_res_partner_rel', 'booking_id', 'partner_id', string='Participants')
 
     @api.constrains('start_time')
     def check_room(self):
         bookings = self.env['room.booking'].search([('room_id','=',self.room_id.id),('start_time','=',self.start_time), ('id','!=',self.id)])
         if bookings:
             raise ValidationError('Room is booked')
+        
 
-    
-    def action_quotation_send(self):
-        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+    def confirm_button(self):
+        self.status = 'confirmed'
         self.ensure_one()
         template_id = self.env['ir.model.data']._xmlid_to_res_id('booking_app.mail_bookroom_confirmation', raise_if_not_found=False)
         lang = self.env.context.get('lang')
@@ -55,3 +54,7 @@ class Booking(models.Model):
             'target': 'new',
             'context': ctx,
         }
+
+
+    # def cancel_button(self):
+    # pass
