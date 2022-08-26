@@ -11,12 +11,7 @@
             <field name="body_html" type="html">
                 <div style="margin: 0px; padding: 0px; font-size: 13px;">
                     <p style="margin: 0px; padding: 0px; font-size: 13px;">
-        Dear Mr/Mrs/Ms <t t-foreach="object.partner_ids" t-as="partner">
-                    <t t-esc="partner.name or ''"></t>, 
-                        </t>
-                        <br/>
-                        <br/>        
-                        This is the notice of the meeting that will take place in <t t-out="object.room_id.name"/> at <t t-out="object.start_time"/><br/> 
+                    This is the notice of the meeting that will take place in <t t-out="object.room_id.name"/> at <t t-out="object.start_time"/><br/> 
         The meeting will be presided by Mr/Mrs/Ms <t t-out="object.requester.name"/> about <t t-out="object.description"/><br/>
         Please arrive on time!<br/>
         <br/>
