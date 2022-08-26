@@ -6,20 +6,25 @@
             <field name="model">room.room</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
-                        <field name="name"/>
-                        <field name="infra" string="Infrastructure"/>
-                        <field name="location"></field>
-                    </group>
-                    <group>
-                        <notebook>
-                            <page string="Booking list">
-                                <group>
-                                    <field name="booking_ids"/>
-                                </group>
-                            </page>
-                        </notebook>
-                    </group>
+                    <sheet>
+                        <header>
+                            <field name="state" widget="statusbar" statusbar_visible="available,using"/>
+                        </header>
+                        <group>
+                            <field name="name"/>
+                            <field name="infra" string="Infrastructure"/>
+                            <field name="location"></field>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="Booking list">
+                                    <group>
+                                        <field name="booking_ids"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
