@@ -1,1 +1,2 @@
-from . import room, booking
+from . import room
+from . import booking

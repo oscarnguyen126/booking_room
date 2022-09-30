@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-
-        <record id="mail_bookroom_confirmation" model="mail.template">
-            <field name="name">Confirmation Email</field>
-            <field name="model_id" ref="booking_app.model_room_booking"/>
-            <field name="subject">{{ object.description }} </field>
-            <field name="email_from">{{ (object.requester.email_formatted or user.email_formatted) }}</field>
-            <field name="email_to">{{ object.partner_ids.id }}</field>
-            <field name="body_html" type="html">
-                <div style="margin: 0px; padding: 0px; font-size: 13px;">
-                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
-                    This is the notice of the meeting that will take place in <t t-out="object.room_id.name"/> at <t t-out="object.start_time"/><br/> 
-        The meeting will be presided by Mr/Mrs/Ms <t t-out="object.requester.name"/> about <t t-out="object.description"/><br/>
-        Please arrive on time!<br/>
-        <br/>
-        <br/>
-        Best regards,
-                    <br/>
+        <template id="template_email_send_booking">
+            <div style="margin: 0px; padding: 0px; font-size: 13px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                The meeting room has been booked completely! <br/>
+                Room: <t t-out="object.room_id.name"/><br/>
+                From: <t t-out="start_time"/> (<t t-out="tz"/>)<br/>
+                To: <t t-out="stop_time"/> (<t t-out="tz"/>)<br/>
+                Booked by: <t t-out="object.requester.name"/>  <br/>
+                Contents of the meeting:  <t t-out="object.description"/><br/>
+                Please arrive on time!<br/>
+                <br/>
+                Best regards,
+                <br/>
+                <br/>
                 </p>
             </div>
-        </field>
-
-        <field name="auto_delete" eval="True"/>
-    </record>
-</data>
-
+        </template>
+    </data>
 </odoo>
