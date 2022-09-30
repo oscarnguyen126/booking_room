@@ -6,10 +6,10 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <form>
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="booking,confirmed"/>
+                    </header>
                     <sheet>
-                        <header>
-                            <field name="status" widget="statusbar" statusbar_visible="booking,confirmed"/>
-                        </header>
                         <group>
                             <group>
                                 <field name="room_id"/>
@@ -24,8 +24,10 @@
                             </group>
                         </group>
                         <footer>
-                            <button type="object" name="confirm_button" string="Confirm" attrs="{'invisible': [('status','=','confirmed')]}"/>
-                            <button type="object" name="cancel_button" string="Cancel" confirm="Are you sure that you want to cancel the meeting?"/>
+                            <center>
+                                <button type="object" name="confirm_button" string="Confirm" attrs="{'invisible': [('status','=','confirmed')]}" confirm="Once you confirm, the information won't be changed"/>
+                                <button type="object" name="cancel_button" string="Cancel" attrs="{'invisible': [('status','=','booking')]}" confirm="Are you sure that you want to cancel the meeting?"/>
+                            </center>
                         </footer>
                     </sheet>
                     <div class="oe_chatter">
@@ -43,7 +45,6 @@
             <field name="arch" type="xml">
                 <calendar string="Booking calendar" date_start="start_time" date_stop="stop_time" mode="month" quick_add="False" color="room_id" event_limit="5">
                     <field name="requester"/>
-                    <field name="description"/>
                     <field name="room_id" filters="1" invisible="1"/>
                 </calendar>
             </field>
@@ -54,20 +55,32 @@
             <field name="name">room.booking.graph</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <sheet>
-                    <graph string="Booking graph" type="bar" disable_linking="true">
-                        <field name="room_id" type="row"/>
-                        <field name="department" type="col"/>
-                    </graph>
-                </sheet>
+                <graph string="" type="bar" disable_linking="1">
+                    <field name="room_id" type="row"/>
+                    <field name="department" type="col"/>
+                </graph>
             </field>
         </record>
 
 
+        <record id="view_room_booking_search" model="ir.ui.view">
+            <field name="name">room.booking</field>
+            <field name="model">room.booking</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="description"/>
+                </search>
+            </field>
+        </record>
+
         <record id="booking_action" model="ir.actions.act_window">
             <field name="name">Booking list</field>
             <field name="res_model">room.booking</field>
-            <field name="view_mode">calendar,form,graph</field>
+            <field name="view_mode">calendar,tree,form,graph</field>
+            <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
+
+
+
     </data>
 </odoo>

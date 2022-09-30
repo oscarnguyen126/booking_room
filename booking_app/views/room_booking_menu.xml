@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="room_booking_menu_action" name="Booking calendar" action="booking_action">
-        <menuitem id="room_menu_action" name="Meeting Room" action="booking_app.test_room_action"/>
-    </menuitem>
+    <menuitem id="room_booking_menu_action" name="Booking calendar" action="booking_app.booking_action"/>
+    <menuitem id="menu_test_room_action" name="Meeting Room" action="booking_app.test_room_action"
+              parent="booking_app.room_booking_menu_action" sequence="5"/>
 </odoo>

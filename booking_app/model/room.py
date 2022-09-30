@@ -1,5 +1,4 @@
-from odoo import models, fields, api
-from datetime import datetime
+from odoo import models, fields
 
 
 class Room(models.Model):
@@ -10,4 +9,3 @@ class Room(models.Model):
     infra = fields.Char(string='Infrastructure')
     location = fields.Char(string='Location')
     booking_ids = fields.One2many('room.booking', 'room_id')
-    state = fields.Selection([('available','Available'),('using','Using')], default='available')
