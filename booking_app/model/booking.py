@@ -1,6 +1,6 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
-from datetime import datetime, timedelta
+from datetime import datetime
 import pytz
 
 
@@ -13,35 +13,32 @@ class Booking(models.Model):
 
     room_id = fields.Many2one('room.room', string='Meeting room', required=True, tracking=True)
     start_time = fields.Datetime(string='Date from', required=True, tracking=True)
-    stop_time = fields.Datetime(string='Date to', compute='_compute_meeting_time', required=True, tracking=True)
-    description = fields.Char(string='Contents of the meeting', required=True, tracking=True)
-    status = fields.Selection([('booking', 'Booking'), ('confirmed', 'Confirmed'), ], default='booking')
+    stop_time = fields.Datetime(string='Date to', required=True, tracking=True)
+    description = fields.Text(string='Contents', required=True, tracking=True)
+    status = fields.Selection([('booking', 'Booking'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
+                              default='booking')
     requester = fields.Many2many('res.users', 'room_booking_res_user_rel', 'booking_id', 'user_id', string='Requester',
                                  index=True, default=lambda self: self.env.user, required=True)
     department = fields.Many2one('res.groups', default=lambda self: self.env.user.groups_id[0], required=True)
     partner_ids = fields.Many2many('res.partner', 'room_booking_res_partner_rel', 'booking_id', 'partner_id',
-                                   string='Participants', required=True)
+                                   string='Participants')
     
-    @api.constrains('start_time')
     def check_room(self):
-        bookings = self.env['room.booking'].search([('room_id', '=', self.room_id.id), ('id', '!=', self.ids)])
+        bookings = self.env['room.booking'].search(["&", ('room_id', '=', self.room_id.id), ('id', '!=', self.ids),
+                                                    ('status', '=', 'confirmed')])
         for book in bookings:
             if book.start_time <= self.start_time < book.stop_time or book.start_time < self.stop_time < book.stop_time:
                 raise ValidationError('This room has been booked by another user')
 
     def cancel_button(self):
-        super(Booking, self).unlink()
-        return {
-            'type': 'ir.actions.act_url',
-            'url': 'http://localhost:8015/web#cids=1&menu_id=96&action=123&model=room.booking&view_type=calendar',
-            'target': 'self'
-        }
-        
+        self.status = 'cancelled'
+
     def confirm_button(self):
+        self.check_room()
         self.ensure_one()
         tz = pytz.timezone(self.env.user.tz or 'UTC')
-        start_time = self.start_time + self.start_time.astimezone(tz).utcoffset()
-        stop_time = self.stop_time + self.stop_time.astimezone(tz).utcoffset()
+        start_time = self.start_time
+        stop_time = self.stop_time
         values = {
             'start_time': start_time,
             'stop_time': stop_time,
@@ -72,8 +69,3 @@ class Booking(models.Model):
     def block_booking_in_past(self):
         if self.start_time < datetime.now():
             raise ValidationError("The time of the meeting must be equal or greater than now!")
-
-    @api.depends('start_time')
-    def _compute_meeting_time(self):
-        for record in self:
-            record.stop_time = record.start_time + timedelta(hours=2)

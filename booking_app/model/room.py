@@ -5,7 +5,7 @@ class Room(models.Model):
     _name = 'room.room'
     _description = 'Room'
 
-    name = fields.Char()
-    infra = fields.Char(string='Infrastructure')
-    location = fields.Char(string='Location')
+    name = fields.Char(required=True)
+    infra = fields.Char(string='Equipments')
+    volume = fields.Integer(string='Max volume of the room')
     booking_ids = fields.One2many('room.booking', 'room_id')

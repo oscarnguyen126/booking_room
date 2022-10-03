@@ -10,7 +10,7 @@
                         <group>
                             <field name="name"/>
                             <field name="infra" string="Infrastructure"/>
-                            <field name="location" filters='1'></field>
+                            <field name="volume"/>
                         </group>
                     </sheet>
                 </form>
@@ -25,7 +25,7 @@
                 <search>
                     <field name="name"/>
                     <field name="infra"/>
-                    <field name="location"/>
+                    <field name="volume"/>
                 </search>
             </field>
         </record>

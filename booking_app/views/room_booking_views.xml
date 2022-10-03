@@ -7,13 +7,14 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <field name="status" widget="statusbar" statusbar_visible="booking,confirmed"/>
+                        <button type="object" name="confirm_button" string="Confirm" confirm="Once you confirm, the information won't be changed"/>
+                        <button type="object" name="cancel_button" string="Cancel" confirm="Are you sure that you want to cancel the meeting?"/>
+                        <field name="status" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
                     </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="room_id"/>
-                                <field name="description"/>
                                 <field name="start_time"/>
                                 <field name="stop_time"/>
                             </group>
@@ -23,12 +24,9 @@
                                 <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..." context="{'force_email':True, 'show_email':True}"/>
                             </group>
                         </group>
-                        <footer>
-                            <center>
-                                <button type="object" name="confirm_button" string="Confirm" attrs="{'invisible': [('status','=','confirmed')]}" confirm="Once you confirm, the information won't be changed"/>
-                                <button type="object" name="cancel_button" string="Cancel" attrs="{'invisible': [('status','=','booking')]}" confirm="Are you sure that you want to cancel the meeting?"/>
-                            </center>
-                        </footer>
+                         <group>
+                             <field name="description"/>
+                         </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
@@ -44,8 +42,8 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <calendar string="Booking calendar" date_start="start_time" date_stop="stop_time" mode="month" quick_add="False" color="room_id" event_limit="5">
+                    <field name="room_id" filters="1"/>
                     <field name="requester"/>
-                    <field name="room_id" filters="1" invisible="1"/>
                 </calendar>
             </field>
         </record>
@@ -69,9 +67,12 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="description"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
                 </search>
             </field>
         </record>
+
 
         <record id="booking_action" model="ir.actions.act_window">
             <field name="name">Booking list</field>
@@ -79,7 +80,6 @@
             <field name="view_mode">calendar,tree,form,graph</field>
             <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
-
 
 
     </data>
