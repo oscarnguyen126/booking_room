@@ -7,26 +7,32 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button type="object" name="confirm_button" string="Confirm" confirm="Once you confirm, the information won't be changed"/>
-                        <button type="object" name="cancel_button" string="Cancel" confirm="Are you sure that you want to cancel the meeting?"/>
+                        <button type="object" name="confirm_button" string="Xác nhận"/>
+                        <button type="object" name="cancel_button" string="Hủy bỏ"
+                                confirm="Bạn có chắc chắn muốn hủy cuộc họp này không"/>
                         <field name="status" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
                     </header>
                     <sheet>
                         <group>
+                            <field name="title"/>
+                        </group>
+                        <group>
                             <group>
-                                <field name="room_id"/>
+                                <field name="room_id" options="{'no_create': True, 'no_create_edit': True}"/>
                                 <field name="start_time"/>
                                 <field name="stop_time"/>
                             </group>
                             <group>
-                                <field name="requester" widget="many2many_tags" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="requester" options="{'no_create': True, 'no_create_edit': True}"/>
                                 <field name="department"/>
-                                <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..." context="{'force_email':True, 'show_email':True}"/>
+                                <field name="partner_ids" widget="many2many_tags_email"
+                                       placeholder="Thêm người tham gia"
+                                       context="{'force_email':True, 'show_email':True}"/>
                             </group>
                         </group>
-                         <group>
-                             <field name="description"/>
-                         </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"/>
@@ -37,13 +43,33 @@
         </record>
 
 
+        <record id="room_booking_tree" model="ir.ui.view">
+            <field name="name">room.booking.tree</field>
+            <field name="model">room.booking</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="title"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <field name="room_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                    <field name="partner_ids"/>
+                    <field name="requester" />
+                    <field name="department"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+
         <record id="room_booking_calendar" model="ir.ui.view">
             <field name="name">room.booking.calendar</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <calendar string="Booking calendar" date_start="start_time" date_stop="stop_time" mode="month" quick_add="False" color="room_id" event_limit="5">
+                <calendar string="Đặt phòng họp" date_start="start_time" date_stop="stop_time" mode="month"
+                          quick_add="False" color="room_id" event_limit="5">
                     <field name="room_id" filters="1"/>
                     <field name="requester"/>
+                    <field name="status" filters="1"/>
                 </calendar>
             </field>
         </record>
@@ -66,21 +92,41 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="description"/>
+                    <field name="title"/>
+                    <field name="room_id"/>
+                    <field name="requester"/>
+                    <field name="department"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>
+                    <field name="description"/>
+                    <field name="partner_ids"/>
                 </search>
             </field>
         </record>
 
 
+        <record id="create_booking" model="ir.actions.act_window">
+            <field name="name">Đặt phòng</field>
+            <field name="res_model">room.booking</field>
+            <field name="view_mode">form</field>
+            <field name="search_view_id" ref="view_room_booking_search"/>
+        </record>
+
+
+        <record id="booking_list" model="ir.actions.act_window">
+            <field name="name">Danh sách đặt phòng</field>
+            <field name="res_model">room.booking</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="view_room_booking_search"/>
+        </record>
+
+
         <record id="booking_action" model="ir.actions.act_window">
-            <field name="name">Booking list</field>
+            <field name="name">Danh sách đặt phòng</field>
             <field name="res_model">room.booking</field>
             <field name="view_mode">calendar,tree,form,graph</field>
             <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
-
 
     </data>
 </odoo>
