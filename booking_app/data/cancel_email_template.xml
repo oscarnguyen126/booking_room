@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <template id="template_email_send_booking">
+        <template id="cancel_email_template">
             <div style="margin: 0px; padding: 0px; font-size: 13px;">
                 <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                Thông báo hủy phòng họp <br></br>
                 Địa điểm: <t t-out="object.room_id.name"/><br/>
                 Thời gian: <t t-out="start_time"/> - <t t-out="stop_time"/><br/>
                 Người tham gia: <t t-out="object.requester.name"/>, <t t-out="object.partner_ids.name"/>
                 <br/>
                 Đây là email tự động từ hệ thống vui lòng không phản hồi email này <br></br>
+                    <br></br>
                 Trân trọng,
                 <br/>
                 <br/>

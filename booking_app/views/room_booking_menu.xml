@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="room_booking_menu_action" name="Booking calendar" action="booking_app.booking_action"/>
-    <menuitem id="menu_test_room_action" name="Meeting Room" action="booking_app.test_room_action"
-              parent="booking_app.room_booking_menu_action" sequence="5"/>
+    <menuitem id="room_booking_menu_action" name="Lịch họp" action="booking_app.booking_action" sequence="5"/>
+    <menuitem id="menu_test_room_action" name="Thông tin phòng họp"
+              parent="booking_app.room_booking_menu_action"
+              action="booking_app.test_room_action"
+              sequence="0"/>
+    <menuitem id="create_booking" name="Đặt lịch họp"
+              parent="booking_app.room_booking_menu_action"
+              action="create_booking"/>
+    <menuitem id="list_booking" name="Danh sách đặt phòng"
+              parent="booking_app.room_booking_menu_action"
+              action="booking_list"/>
+
 </odoo>
