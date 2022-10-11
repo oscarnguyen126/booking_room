@@ -9,7 +9,6 @@
                     <sheet>
                         <group>
                             <field name="name" string="Phòng họp"/>
-                            <field name="infra" string="Trang thiết bị"/>
                             <field name="volume"/>
                         </group>
                     </sheet>
@@ -18,36 +17,34 @@
         </record>
 
         <record id="room_tree" model="ir.ui.view">
-            <field name="name">room.room.form</field>
+            <field name="name">room.room.tree</field>
             <field name="model">room.room</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name" string="Phòng họp"/>
-                    <field name="infra" string="Trang thiết bị"/>
                     <field name="volume"/>
                 </tree>
             </field>
         </record>
 
-        <record id="view_estate_property_search" model="ir.ui.view">
+        <record id="view_room_search" model="ir.ui.view">
             <field name="name">room.room.search</field>
             <field name="model">room.room</field>
             <field name="arch" type="xml">
                 <search>
                     <field name="name"/>
-                    <field name="infra"/>
                     <field name="volume"/>
                 </search>
             </field>
         </record>
 
-
-        <record id="test_room_action" model="ir.actions.act_window">
+        <record id="list_room" model="ir.actions.act_window">
             <field name="name">Phòng họp</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">room.room</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{}</field>
         </record>
+
+
     </data>
 </odoo>

@@ -14,17 +14,15 @@
                     </header>
                     <sheet>
                         <group>
-                            <field name="title"/>
-                        </group>
-                        <group>
                             <group>
+                                <field name="title"/>
                                 <field name="room_id" options="{'no_create': True, 'no_create_edit': True}"/>
                                 <field name="start_time"/>
                                 <field name="stop_time"/>
                             </group>
                             <group>
                                 <field name="requester" options="{'no_create': True, 'no_create_edit': True}"/>
-                                <field name="department"/>
+                                <field name="department_id"/>
                                 <field name="partner_ids" widget="many2many_tags_email"
                                        placeholder="Thêm người tham gia"
                                        context="{'force_email':True, 'show_email':True}"/>
@@ -47,14 +45,15 @@
             <field name="name">room.booking.tree</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'booking' " decoration-success="status == 'confirmed'"
+                      decoration-danger="status == 'cancelled'">
                     <field name="title"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>
                     <field name="room_id" options="{'no_create': True, 'no_create_edit': True}"/>
                     <field name="partner_ids"/>
-                    <field name="requester" />
-                    <field name="department"/>
+                    <field name="requester"/>
+                    <field name="department_id"/>
                     <field name="status"/>
                 </tree>
             </field>
@@ -66,7 +65,7 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <calendar string="Đặt phòng họp" date_start="start_time" date_stop="stop_time" mode="month"
-                          quick_add="False" color="room_id" event_limit="5">
+                          quick_add="False" color="room_id" event_limit="5" event_open_popup="True">
                     <field name="room_id" filters="1"/>
                     <field name="requester"/>
                     <field name="status" filters="1"/>
@@ -81,7 +80,8 @@
             <field name="arch" type="xml">
                 <graph string="" type="bar" disable_linking="1">
                     <field name="room_id" type="row"/>
-                    <field name="department" type="col"/>
+                    <field name="during" type="col"/>
+                    <field name="department_id" type="col"/>
                 </graph>
             </field>
         </record>
@@ -95,7 +95,8 @@
                     <field name="title"/>
                     <field name="room_id"/>
                     <field name="requester"/>
-                    <field name="department"/>
+                    <filter name="requester_filter" string="Requester" domain="[('requester','=', uid)]"/>
+                    <field name="department_id"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>
                     <field name="description"/>
@@ -104,27 +105,24 @@
             </field>
         </record>
 
+        <record id="booking_action" model="ir.actions.act_window">
+            <field name="name">Danh sách đặt phòng</field>
+            <field name="res_model">room.booking</field>
+            <field name="view_mode">calendar,tree,form,graph</field>
+            <field name="search_view_id" ref="view_room_booking_search"/>
+        </record>
 
-        <record id="create_booking" model="ir.actions.act_window">
+        <record id="create_request" model="ir.actions.act_window">
             <field name="name">Đặt phòng</field>
             <field name="res_model">room.booking</field>
             <field name="view_mode">form</field>
             <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
 
-
-        <record id="booking_list" model="ir.actions.act_window">
-            <field name="name">Danh sách đặt phòng</field>
+        <record id="list_booking" model="ir.actions.act_window">
+            <field name="name">Đặt phòng</field>
             <field name="res_model">room.booking</field>
-            <field name="view_mode">tree</field>
-            <field name="search_view_id" ref="view_room_booking_search"/>
-        </record>
-
-
-        <record id="booking_action" model="ir.actions.act_window">
-            <field name="name">Danh sách đặt phòng</field>
-            <field name="res_model">room.booking</field>
-            <field name="view_mode">calendar,tree,form,graph</field>
+            <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
 
