@@ -1,3 +1,5 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_room_room,access_room_room,model_room_room,base.group_user,1,1,1,1
 access_room_booking,access_room_booking,model_room_booking,base.group_user,1,1,1,1
+access_room_equipments,access_room_equipments,model_room_equipments,base.group_user,1,1,1,1
+

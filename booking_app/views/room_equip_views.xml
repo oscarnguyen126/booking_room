@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="equipment_form" model="ir.ui.view">
+            <field name="name">room.equipments.form</field>
+            <field name="model">room.equipments</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="model"/>
+                            <field name="color"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="equipment_tree" model="ir.ui.view">
+            <field name="name">room.equipments.tree</field>
+            <field name="model">room.equipments</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="model"/>
+                    <field name="color"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_equipment_search" model="ir.ui.view">
+            <field name="name">room.equipments.search</field>
+            <field name="model">room.equipments</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="model"/>
+                    <field name="color"/>
+                </search>
+            </field>
+        </record>
+
+
+        <record id="list_equipments" model="ir.actions.act_window">
+            <field name="name">Danh sách thiết bị</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">room.equipments</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+    </data>
+</odoo>
