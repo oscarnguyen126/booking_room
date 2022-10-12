@@ -20,11 +20,10 @@ class Booking(models.Model):
                               string="Trạng thái", default='booking')
     requester = fields.Many2one('res.users', string='Người đặt phòng', index=True,
                                 default=lambda self: self.env.user, required=True)
-    department_id = fields.Many2one('hr.department', string="Đơn vị",
-                                 required=True)
+    department_id = fields.Many2one('hr.department', string="Đơn vị", required=True)
     partner_ids = fields.Many2many('res.partner', 'room_booking_res_partner_rel', 'booking_id', 'partner_id',
                                    string='Người tham gia')
-    during = fields.Float('During time (hours)', store=True, compute='_compute_during_time')
+    during = fields.Float('Thời gian sử dụng (giờ)', store=True, compute='_compute_during_time')
 
     def check_duplicate(self):
         bookings = self.env['room.booking'].search(["&", ('room_id', '=', self.room_id.id), ('id', '!=', self.ids),
@@ -156,5 +155,7 @@ class Booking(models.Model):
                     record.during = during.seconds / 3600
 
     @api.onchange('requester')
-    def get_department(self):
-        pass
+    def onchange_requester(self):
+        for rec in self:
+            if rec.requester:
+                rec.department_id = rec.requester.employee_id.department_id

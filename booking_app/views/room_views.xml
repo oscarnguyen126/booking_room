@@ -10,6 +10,7 @@
                         <group>
                             <field name="name" string="Phòng họp"/>
                             <field name="volume"/>
+                            <field name="equipment" widget="many2many_tags_name" options="{'no_create': True, 'no_create_edit': True}"/>
                         </group>
                     </sheet>
                 </form>
@@ -23,6 +24,7 @@
                 <tree>
                     <field name="name" string="Phòng họp"/>
                     <field name="volume"/>
+                    <field name="equipment"/>
                 </tree>
             </field>
         </record>
@@ -34,6 +36,7 @@
                 <search>
                     <field name="name"/>
                     <field name="volume"/>
+                    <field name="equipment"/>
                 </search>
             </field>
         </record>

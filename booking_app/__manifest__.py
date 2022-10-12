@@ -8,10 +8,9 @@
              'views/room_views.xml',
              'views/room_booking_views.xml',
              'views/room_booking_menu.xml',
+             'views/room_equip_views.xml',
              'data/email_template.xml',
              'data/cancel_email_template.xml',
-             'security/groups.xml',
-             'security/rules.xml',
              'reports/report.xml'],
     'license': 'GPL-3',
 }
