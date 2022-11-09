@@ -1,5 +1,10 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_room_room,access_room_room,model_room_room,base.group_user,1,1,1,1
-access_room_booking,access_room_booking,model_room_booking,base.group_user,1,1,1,1
-access_room_equipments,access_room_equipments,model_room_equipments,base.group_user,1,1,1,1
-
+access_room_room_booking_group_admin,access_room_room,model_room_room,booking_group_admin,1,1,1,1
+access_room_room_booking_group_user,access_room_room,model_room_room,booking_group_user,1,0,0,0
+access_room_booking_booking_group_user,access_room_booking,model_room_booking,booking_group_user,1,1,1,0
+access_room_booking_booking_group_admin,access_room_booking,model_room_booking,booking_group_admin,1,1,1,1
+access_room_equipments_booking_group_user,access_room_equipments,model_room_equipments,booking_group_user,1,0,0,0
+access_room_equipments_booking_group_admin,access_room_equipments,model_room_equipments,booking_group_admin,1,1,1,1
+access_room_equipment_brands_booking_group_admin,access_room_equipment_brands,model_room_equipment_brands,booking_group_admin,1,1,1,1
+access_room_equipment_brands_booking_group_user,access_room_equipment_brands,model_room_equipment_brands,booking_group_user,1,0,0,0
+access_room_equipment_color,access_room_equipment_color,model_room_equipment_color,base.group_user,1,1,1,1

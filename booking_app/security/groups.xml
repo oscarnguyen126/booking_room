@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+        <record id="module_booking_category" model="ir.module.category">
+            <field name="name">Booking</field>
+        </record>
+        <record id="booking_group_user" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="booking_app.module_booking_category"/>
+        </record>
+        <record id="booking_group_admin" model="res.groups">
+            <field name="name">Administrator</field>
+            <field name="category_id" ref="booking_app.module_booking_category"/>
+        </record>
+    </data>
+</odoo>

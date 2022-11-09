@@ -24,6 +24,18 @@
                         </span>
                     </strong>
                 </p>
+                <p>Người tham gia:
+                    <strong>
+                        <span>
+                            <t t-out="object.requester.name"/>
+                        </span>
+                        <span>
+                            <t t-foreach="object.partner_ids" t-as="o">
+                            <t t-esc="o.name"/>
+                            </t>
+                        </span>
+                    </strong>
+                </p>
             </div>
             <p>Đây là email tự động từ hệ thống vui lòng không phản hồi email này</p>
             <p>Trân trọng,
