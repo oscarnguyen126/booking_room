@@ -23,6 +23,7 @@
                                 <field name="room_id"
                                        options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
                                        attrs="{'readonly': [('status','in',('confirmed','cancelled'))]}"/>
+                                <field name="max_volume"/>
                                 <field name="start_time"
                                        attrs="{'readonly': [('status','in',('confirmed','cancelled'))]}"/>
                                 <field name="stop_time"
@@ -60,11 +61,12 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <tree decoration-muted="status == 'booking' " decoration-success="status == 'confirmed'"
-                      decoration-danger="status == 'cancelled'">
+                      decoration-danger="status == 'cancelled'" delete="false">
                     <field name="title"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>
                     <field name="room_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                    <field name="max_volume"/>
                     <field name="partner_ids" widget="many2many_tags"/>
                     <field name="requester"/>
                     <field name="department_id"/>
@@ -89,7 +91,7 @@
 
 
         <record id="booking_pivot" model="ir.ui.view">
-            <field name="name">Thống kê thời gian sử dụng phòng họp</field>
+            <field name="name">Time using of each room</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <pivot string="Booking">
@@ -122,7 +124,7 @@
 
 
         <record id="booking_action" model="ir.actions.act_window">
-            <field name="name">Danh sách đặt phòng</field>
+            <field name="name">Booking calendar</field>
             <field name="res_model">room.booking</field>
             <field name="view_mode">calendar,tree,form,pivot</field>
             <field name="search_view_id" ref="view_room_booking_search"/>

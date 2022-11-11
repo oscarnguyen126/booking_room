@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="room_booking_menu_action" name="Danh sách đặt phòng"
+    <menuitem id="room_booking_menu_action" name="Booking calendar"
               action="booking_app.booking_action"
               sequence="45"/>
-    <menuitem id="list_meeting_room" name="Phòng họp"
+    <menuitem id="list_meeting_room" name="Meeting room"
               parent="booking_app.room_booking_menu_action"
               action="booking_app.list_room"
               sequence="2"/>
-    <menuitem id="equipments" name="Thiết bị"
+    <menuitem id="equipments" name="Equipment"
               parent="booking_app.room_booking_menu_action"/>
-    <menuitem id="equipment" name="Danh sách thiết bị"
+    <menuitem id="equipment" name="Equipment menu"
               parent="booking_app.equipments"
               action="booking_app.list_equipments"/>
-    <menuitem id="list_brand" name="Danh sách nhãn hiệu"
+    <menuitem id="list_brand" name="Brands menu"
               parent="booking_app.equipments"
               action="booking_app.list_brands"/>
-    <menuitem id="list_colors" name="Bảng màu"
+    <menuitem id="list_colors" name="Colors menu"
               parent="booking_app.equipments"
               action="booking_app.list_color"/>
 </odoo>
