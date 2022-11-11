@@ -31,7 +31,7 @@
 
 
         <record id="list_color" model="ir.actions.act_window">
-            <field name="name">Màu</field>
+            <field name="name">Color</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">room.equipment.color</field>
             <field name="view_mode">tree,form</field>

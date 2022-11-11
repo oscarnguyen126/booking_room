@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
 import pytz
+from datetime import time
 
 
 class Booking(models.Model):
@@ -24,23 +25,24 @@ class Booking(models.Model):
     partner_ids = fields.Many2many('res.partner', 'room_booking_res_partner_rel', 'booking_id', 'partner_id',
                                    string=_("Participants"))
     during = fields.Float(string=_('Using time'), store=True, compute='_compute_during_time')
+    max_volume = fields.Integer(related='room_id.volume', string=_('Max volume'))
 
     def check_duplicate(self):
         bookings = self.env['room.booking'].search(["&", ('room_id', '=', self.room_id.id), ('id', '!=', self.ids),
                                                     ('status', '=', 'confirmed')])
         for book in bookings:
             if book.start_time <= self.start_time < book.stop_time or book.start_time < self.stop_time < book.stop_time:
-                raise ValidationError('Phòng họp này đã được đặt bởi nhân viên khác trước đó!')
+                raise ValidationError(_('The room has been booked!'))
 
     @api.constrains('start_time')
     def block_booking_in_past(self):
         if self.start_time < datetime.now():
-            raise ValidationError("Thời gian bắt đầu phải lớn hơn hoặc bằng thời gian hiện tại!")
+            raise ValidationError(_("The start time must be greater than now"))
 
     @api.constrains('start_time', 'stop_time')
     def check_stop_time(self):
         if self.stop_time <= self.start_time:
-            raise ValidationError("Thời gian kết thúc phải lớn hơn thời gian bắt đầu")
+            raise ValidationError(_("The stop time must be greater than the start time"))
 
     @api.depends('start_time', 'stop_time', 'status')
     def _compute_during_time(self):
@@ -132,3 +134,22 @@ class Booking(models.Model):
 
     def edit_button(self):
         self.status = 'booking'
+
+    @api.onchange('start_time')
+    def oneday(self):
+        for record in self:
+            if record.start_time:
+                record.stop_time = record.start_time.replace(day=record.start_time.day, month=record.start_time.month,
+                                                             year=record.start_time.year)
+
+    @api.onchange('partner_ids')
+    def check_quantity_guess(self):
+        for record in self:
+            if len(record.partner_ids) > record.room_id.volume:
+                raise ValidationError(_('The guesses is greater than volume of the room'))
+
+    @api.constrains('start_time', 'stop_time')
+    def limit_time(self):
+        for record in self:
+            if record.stop_time.strftime('%m/%d/%Y') > record.start_time.strftime('%m/%d/%Y'):
+                raise ValidationError('too long')

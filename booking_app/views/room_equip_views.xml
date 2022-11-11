@@ -45,7 +45,7 @@
 
 
         <record id="list_equipments" model="ir.actions.act_window">
-            <field name="name">Danh sách thiết bị</field>
+            <field name="name">List Equipment</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">room.equipments</field>
             <field name="view_mode">tree,form</field>

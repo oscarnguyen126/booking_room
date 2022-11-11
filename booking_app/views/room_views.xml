@@ -8,8 +8,8 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="name" string="Phòng họp"/>
-                            <field name="volume" string="Sức chứa tối đa"/>
+                            <field name="name"/>
+                            <field name="volume"/>
                         </group>
                         <notebook>
                             <page string="Thiết bị">
@@ -26,8 +26,8 @@
             <field name="model">room.room</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="name" string="Phòng họp"/>
-                    <field name="volume" string="Sức chứa tối đa"/>
+                    <field name="name"/>
+                    <field name="volume"/>
                     <field name="equipment" widget="many2many_tags"/>
                 </tree>
             </field>
@@ -46,7 +46,7 @@
         </record>
 
         <record id="list_room" model="ir.actions.act_window">
-            <field name="name">Phòng họp</field>
+            <field name="name">Meeting room</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">room.room</field>
             <field name="view_mode">tree,form</field>
