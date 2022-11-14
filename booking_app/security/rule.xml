@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="booking_rule_user" model="ir.rule">
+            <field name="name">user: write/unlink only (created or assigned)</field>
+            <field name="model_id" ref="booking_app.model_room_booking"/>
+            <field name="domain_force">['|', ('requester', '=', user.id), ('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[Command.link(ref('booking_app.booking_group_user'))]"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>

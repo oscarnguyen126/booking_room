@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="room_booking_menu_action" name="Booking calendar"
+    <menuitem id="room_booking" name="Booking calendar"/>
+    <menuitem id="room_booking_menu_action" name="Booking list"
               action="booking_app.booking_action"
-              sequence="45"/>
+              parent="booking_app.room_booking"
+              sequence="25"/>
     <menuitem id="list_meeting_room" name="Meeting room"
-              parent="booking_app.room_booking_menu_action"
+              parent="booking_app.room_booking"
               action="booking_app.list_room"
-              sequence="2"/>
+              sequence="30"/>
     <menuitem id="equipments" name="Equipment"
-              parent="booking_app.room_booking_menu_action"/>
+              parent="booking_app.room_booking"
+              sequence="35"/>/>
     <menuitem id="equipment" name="Equipment menu"
               parent="booking_app.equipments"
               action="booking_app.list_equipments"/>
     <menuitem id="list_brand" name="Brands menu"
               parent="booking_app.equipments"
-              action="booking_app.list_brands"/>
+              action="booking_app.list_brands"
+              groups="booking_app.booking_group_admin"/>
     <menuitem id="list_colors" name="Colors menu"
               parent="booking_app.equipments"
-              action="booking_app.list_color"/>
+              action="booking_app.list_color"
+              groups="booking_app.booking_group_admin"/>
 </odoo>

@@ -2,7 +2,6 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
 import pytz
-from datetime import time
 
 
 class Booking(models.Model):
@@ -13,8 +12,8 @@ class Booking(models.Model):
     _rec_name = 'title'
 
     room_id = fields.Many2one('room.room', string=_("Meeting room"), required=True, tracking=True)
-    start_time = fields.Datetime(string=_("Start date"), required=True, tracking=True)
-    stop_time = fields.Datetime(string=_("Stop date"), required=True, tracking=True)
+    start_time = fields.Datetime(string=_("Start date"), required=True, tracking=True, copy=False)
+    stop_time = fields.Datetime(string=_("Stop date"), required=True, tracking=True, copy=False)
     title = fields.Char(string=_("Title"), required=True, tracking=True)
     description = fields.Text(string=_("Content"), tracking=True)
     status = fields.Selection([('booking', 'Booking'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
@@ -27,12 +26,13 @@ class Booking(models.Model):
     during = fields.Float(string=_('Using time'), store=True, compute='_compute_during_time')
     max_volume = fields.Integer(related='room_id.volume', string=_('Max volume'))
 
+    @api.constrains('start_time', 'stop_time')
     def check_duplicate(self):
-        bookings = self.env['room.booking'].search(["&", ('room_id', '=', self.room_id.id), ('id', '!=', self.ids),
-                                                    ('status', '=', 'confirmed')])
-        for book in bookings:
-            if book.start_time <= self.start_time < book.stop_time or book.start_time < self.stop_time < book.stop_time:
-                raise ValidationError(_('The room has been booked!'))
+        for record in self:
+            bookings = self.env['room.booking'].search(["&", ('room_id', '=', record.room_id.id), ('id', '!=', record.ids)])
+            for book in bookings:
+                if book.start_time <= record.start_time < book.stop_time or book.start_time < record.stop_time < book.stop_time:
+                    raise ValidationError(_('The room has been booked!'))
 
     @api.constrains('start_time')
     def block_booking_in_past(self):
@@ -100,7 +100,6 @@ class Booking(models.Model):
         self.status = 'cancelled'
 
     def confirm_button(self):
-        self.check_duplicate()
         self.ensure_one()
         tz = pytz.timezone(self.env.user.tz or 'UTC')
         start_time = self.start_time
@@ -142,7 +141,7 @@ class Booking(models.Model):
                 record.stop_time = record.start_time.replace(day=record.start_time.day, month=record.start_time.month,
                                                              year=record.start_time.year)
 
-    @api.onchange('partner_ids')
+    @api.constrains('partner_ids')
     def check_quantity_guess(self):
         for record in self:
             if len(record.partner_ids) > record.room_id.volume:
@@ -153,3 +152,4 @@ class Booking(models.Model):
         for record in self:
             if record.stop_time.strftime('%m/%d/%Y') > record.start_time.strftime('%m/%d/%Y'):
                 raise ValidationError('too long')
+
