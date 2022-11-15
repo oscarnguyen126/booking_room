@@ -13,7 +13,13 @@
                         </group>
                         <notebook>
                             <page string="Thiết bị">
-                                <field name="equipment" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="equipment_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="room_id"/>
+                                        <field name="equipment_id"/>
+                                        <field name="quantity"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -28,7 +34,6 @@
                 <tree>
                     <field name="name"/>
                     <field name="volume"/>
-                    <field name="equipment" widget="many2many_tags"/>
                 </tree>
             </field>
         </record>
@@ -40,7 +45,6 @@
                 <search>
                     <field name="name"/>
                     <field name="volume"/>
-                    <field name="equipment"/>
                 </search>
             </field>
         </record>

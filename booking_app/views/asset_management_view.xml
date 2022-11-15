@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <data>
+        <record id="asset_management_form" model="ir.ui.view">
+            <field name="name">asset.management.form</field>
+            <field name="model">asset.management</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="equipment_id"/>
+                            <field name="quantity"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="asset_management_tree" model="ir.ui.view">
+            <field name="name">asset.management</field>
+            <field name="model">asset.management</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="room_id"/>
+                    <field name="equipment_id"/>
+                    <field name="quantity"/>
+                </tree>
+            </field>
+        </record>
+
+
+       <record id="asset_management_action" model="ir.actions.act_window">
+            <field name="name">Asset Management</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">asset.management</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+    </data>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="booking_cancel_wizard_form" model="ir.ui.view">
+            <field name="name">Reason</field>
+            <field name="model">booking.cancel.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reason">
+                    <group>
+                        <field name="reason"/>
+                    </group>
+                 <footer>
+                        <button name="confirm_cancel" id="confirm_cancel_booking" string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                 </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_input_reason_wizard" model="ir.actions.act_window">
+            <field name="name">Reason Cancel</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.cancel.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+</odoo>

@@ -36,6 +36,13 @@
                         </span>
                     </strong>
                 </p>
+                <p>Yêu cầu chuẩn bị:
+                    <strong>
+                        <span>
+                            <t t-out="object.note"/>
+                        </span>
+                    </strong>
+                </p>
             </div>
             <p>Đây là email tự động từ hệ thống vui lòng không phản hồi email này</p>
             <p>Trân trọng,
