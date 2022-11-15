@@ -19,8 +19,8 @@
               parent="booking_app.equipments"
               action="booking_app.list_brands"
               groups="booking_app.booking_group_admin"/>
-    <menuitem id="list_colors" name="Colors menu"
-              parent="booking_app.equipments"
-              action="booking_app.list_color"
-              groups="booking_app.booking_group_admin"/>
+<!--    <menuitem id="list_colors" name="Colors menu"-->
+<!--              parent="booking_app.equipments"-->
+<!--              action="booking_app.list_color"-->
+<!--              groups="booking_app.booking_group_admin"/>-->
 </odoo>

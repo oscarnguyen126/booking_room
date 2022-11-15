@@ -5,5 +5,5 @@ class Color(models.Model):
     _name = 'room.equipment.color'
 
     name = fields.Char(string=_('Name'), required=True)
-    equipment_id = fields.One2many('room.equipments', 'color_id')
+    equipment_id = fields.One2many('room.equipments', 'color')
     color = fields.Char(string=_('Color'))

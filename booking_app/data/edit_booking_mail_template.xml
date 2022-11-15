@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
-        <template id="cancel_email_template">
-            <h5>Thông báo hủy lịch họp</h5>
+        <template id="edit_email_template">
+            <h5>Thông báo thay đổi lịch họp</h5>
             <div>
                 <h3>
                     <t t-out="object.title"></t>
@@ -31,13 +31,6 @@
                             <t t-foreach="object.partner_ids" t-as="o">
                             <t t-esc="o.name"/>
                             </t>
-                        </span>
-                    </strong>
-                </p>
-                <p>Nguyên nhân hủy lịch họp:
-                   <strong>
-                        <span>
-                            <t t-out="object.reason"/>
                         </span>
                     </strong>
                 </p>

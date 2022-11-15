@@ -7,5 +7,5 @@ class Equipment(models.Model):
 
     name = fields.Char(string=_("Name"), required=True)
     brand_id = fields.Many2one('room.equipment.brands', string=_("Brand"))
-    color_id = fields.Many2one('room.equipment.color', string=_("Color"), required=True)
-    color_ids = fields.Char(string=_('Label'), related='color_id.color')
+    description = fields.Text(string=_('Specification'))
+    color = fields.Char(string=_('Color'))
