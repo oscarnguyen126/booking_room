@@ -12,15 +12,15 @@ class Booking(models.Model):
     _rec_name = 'title'
 
     room_id = fields.Many2one('room.room', string=_("Meeting room"), required=True, tracking=True)
-    start_time = fields.Datetime(string=_("Start date"), required=True, tracking=True, copy=False)
-    stop_time = fields.Datetime(string=_("Stop date"), required=True, tracking=True, copy=False)
+    start_time = fields.Datetime(string=_("Start date"), tracking=True, copy=False)
+    stop_time = fields.Datetime(string=_("Stop date"), tracking=True, copy=False)
     title = fields.Char(string=_("Title"), required=True, tracking=True)
     description = fields.Text(string=_("Content"), tracking=True)
     state = fields.Selection([('booking', 'Booking'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
-                              default='booking', string=_("State"))
+                              default='booking', string=_("State"), copy=False)
     requester = fields.Many2one('res.users', index=True, string=_("Requester"),
                                 default=lambda self: self.env.user)
-    department_id = fields.Many2one('hr.department', string=_("Department"), compute='compute_requester')
+    department_id = fields.Many2one('hr.department', string=_("Department"), compute='compute_requester', store=True)
     partner_ids = fields.Many2many('res.partner', 'room_booking_res_partner_rel', 'booking_id', 'partner_id',
                                    string=_("Participants"))
     during = fields.Float(string=_('Using time'), store=True, compute='_compute_during_time')
@@ -29,15 +29,15 @@ class Booking(models.Model):
     attached_file = fields.Binary(string=_('Attached File'))
     note = fields.Text(string=_('Requirements'))
     edit_checker = fields.Boolean(default=True)
+    cancel_booking_time = fields.Datetime(default=datetime.now().strftime("%Y-%m-%d %H:%M"))
+
+    def cancel_time(self):
+        self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     def write(self, vals):
         res = super().write(vals)
-        for rec in self:
-            if rec.edit_checker is True and rec.state == 'confirmed' and not vals.get('edit_checker', False):
-                rec.send_mail(type='edited')
-                rec.write({
-                    'edit_checker': False
-                    })
+        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "partner_ids", "attached_file", "note"] for field in vals) and self.state == 'confirmed':
+            self.send_mail(type='Edited')
         return res
 
     @api.constrains('start_time', 'stop_time')
@@ -87,9 +87,11 @@ class Booking(models.Model):
         tz = pytz.timezone(self.env.user.tz or 'UTC')
         start_time = self.start_time
         stop_time = self.stop_time
+        cancel_booking_time = self.cancel_booking_time
         values = {
             'start_time': start_time,
             'stop_time': stop_time,
+            'cancel_booking_time': cancel_booking_time,
             'object': self,
             'tz': tz.zone
         }
@@ -157,21 +159,19 @@ class Booking(models.Model):
     def cancel_button(self):
         action = self.env.ref('booking_app.action_input_reason_wizard').read()[0]
         self.edit_checker = False
+        self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         return action
 
     def confirm_button(self):
         for record in self:
             record.state = 'confirmed'
             record.send_mail(type='confirmed')
-            record.edit_checker = False
-
-    def edit_button(self):
-        for record in self:
-            record.edit_checker = True
+            self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     def back_to_draft(self):
         for record in self:
             record.state = 'booking'
+            record.edit_checker = True
 
     @api.onchange('start_time')
     def oneday(self):
@@ -191,4 +191,3 @@ class Booking(models.Model):
         for record in self:
             if record.stop_time.strftime('%m/%d/%Y') > record.start_time.strftime('%m/%d/%Y'):
                 raise ValidationError('Using time is too long')
-

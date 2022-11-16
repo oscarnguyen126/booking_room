@@ -15,8 +15,9 @@
                             <page string="Thiết bị">
                                 <field name="equipment_line_ids">
                                     <tree editable="bottom">
-                                        <field name="room_id"/>
+<!--                                        <field name="room_id"/>-->
                                         <field name="equipment_id"/>
+                                        <field name="brand"/>
                                         <field name="quantity"/>
                                     </tree>
                                 </field>

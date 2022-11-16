@@ -9,8 +9,9 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="room_id"/>
+<!--                            <field name="room_id"/>-->
                             <field name="equipment_id"/>
+                            <field name="brand"/>
                             <field name="quantity"/>
                         </group>
                     </sheet>
@@ -24,8 +25,9 @@
             <field name="model">asset.management</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="room_id"/>
+<!--                    <field name="room_id"/>-->
                     <field name="equipment_id"/>
+                    <field name="brand"/>
                     <field name="quantity"/>
                 </tree>
             </field>
