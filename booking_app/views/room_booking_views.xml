@@ -5,28 +5,28 @@
             <field name="name">room.booking.form</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <form string="booking" delete="false" create="false">
+                <form string="booking" delete="false">
                     <header>
-                        <button type="object" name="edit_button" string="Sửa đổi thông tin"
-                                attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>
+<!--                        <button type="object" name="edit_button" string="Sửa đổi thông tin"-->
+<!--                                attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>-->
                         <button type="object" name="confirm_button" string="Xác nhận"
                                 attrs="{'invisible': [('state','in',('confirmed','cancelled'))]}"/>
                         <button type="object" name="cancel_button" string="Hủy lịch họp"
                                 attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
-                        <button type="object" name="back_to_draft" string="Back to draft"
-                                attrs="{'invisible': [('state','!=','cancelled')]}"/>
+<!--                        <button type="object" name="back_to_draft" string="Back to draft"-->
+<!--                                attrs="{'invisible': [('state','!=','cancelled')]}"/>-->
                     </header>
                     <sheet>
                         <group>
                             <group>
-                                <field name="title" attrs="{'readonly': [('edit_checker','=',False)]}"/>
+                                <field name="title" attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="room_id"
                                        options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
-                                       attrs="{'readonly': [('edit_checker','=',False)]}"/>
-                                <field name="max_volume"/>
-                                <field name="start_time" attrs="{'readonly': [('edit_checker','=',False)]}"/>
-                                <field name="stop_time" attrs="{'readonly': [('edit_checker','=',False)]}"/>
+                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="max_volume" attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="start_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="stop_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
                             </group>
                             <group>
                                 <field name="requester"
@@ -35,16 +35,19 @@
                                        readonly="1"/>
                                 <field name="partner_ids" widget="many2many_tags_email"
                                        placeholder="Thêm người tham gia"
-                                       context="{'force_email':True, 'show_email':True}" attrs="{'readonly': [('edit_checker','=',False)]}"/>
-                                <field name="attached_file" attrs="{'readonly': [('edit_checker','=',False)]}"/>
-                                <field name="note" attrs="{'readonly': [('edit_checker','=',False)]}"/>
-                                <field name="reason" attrs="{'invisible': [('state','!=','cancelled')]}"/>
+                                       context="{'force_email':True, 'show_email':True}"
+                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="attached_file"
+                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="note"
+                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="reason"
+                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                             </group>
                         </group>
                         <group>
-                            <field name="description"
-                                   attrs="{'readonly': [('state','in',('confirmed','cancelled'))]}"/>
-                            <field name="edit_checker"/>
+                            <field name="description"/>
+<!--                            <field name="edit_checker"/>-->
                         </group>
                     </sheet>
                     <div class="oe_chatter">

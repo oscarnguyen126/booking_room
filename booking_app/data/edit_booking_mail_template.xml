@@ -7,34 +7,65 @@
                 <h3>
                     <t t-out="object.title"></t>
                 </h3>
-                <p>
-                    Địa điểm:
+                <br></br>
+                <div>
+                    <span>Lịch họp của bạn đã bị thay đổi vào ngày:
+                    </span>
+                    <strong>
+                        <span>
+                            <t t-out="object.cancel_booking_time" t-options="{'widget': 'datetime'}"/>
+                        </span>
+                    </strong>
+                </div>
+                <div>
+                    <span>
+                        Địa điểm phòng họp: :
+                    </span>
                     <strong>
                         <span>
                             <t t-out="object.room_id.name"/>
                         </span>
                     </strong>
-                </p>
-                <p>Thời gian:
+                </div>
+                <div>
+                    <span>Người tham gia:</span>
                     <strong>
                         <span>
-                            <t t-out="start_time"/> - <t t-out="stop_time"/>
-                        </span>
-                    </strong>
-                </p>
-                <p>Người tham gia:
-                    <strong>
-                      <span>
                             <t t-out="object.requester.name"/>
                         </span>
                         <span>
                             <t t-foreach="object.partner_ids" t-as="o">
-                            <t t-esc="o.name"/>
+                                <t t-esc="o.name"/>
                             </t>
                         </span>
                     </strong>
-                </p>
+                </div>
+                <div>
+                    <spanp>Yêu cầu chuẩn bị:</spanp>
+                    <strong>
+                        <span>
+                            <t t-out="object.note"/>
+                        </span>
+                    </strong>
+                </div>
+                <div>
+                    <spanp>Nội dung buổi họp:</spanp>
+                    <strong>
+                        <span>
+                            <t t-out="object.description"/>
+                        </span>
+                    </strong>
+                </div>
+                <div>
+                    <spanp>File đính kèm:</spanp>
+                    <strong>
+                        <span>
+                            <t t-out="object.attached_file"/>
+                        </span>
+                    </strong>
+                </div>
             </div>
+            <br></br><br></br>
             <p>Đây là email tự động từ hệ thống vui lòng không phản hồi email này</p>
             <p>Trân trọng,
             </p>
