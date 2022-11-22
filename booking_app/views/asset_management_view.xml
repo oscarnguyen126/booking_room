@@ -11,7 +11,7 @@
                         <group>
 <!--                            <field name="room_id"/>-->
                             <field name="equipment_id"/>
-                            <field name="brand"/>
+                            <field name="description"/>
                             <field name="quantity"/>
                         </group>
                     </sheet>
@@ -27,7 +27,7 @@
                 <tree>
 <!--                    <field name="room_id"/>-->
                     <field name="equipment_id"/>
-                    <field name="brand"/>
+                    <field name="description"/>
                     <field name="quantity"/>
                 </tree>
             </field>

@@ -15,9 +15,8 @@
                             <page string="Equipments">
                                 <field name="equipment_line_ids">
                                     <tree editable="bottom">
-<!--                                        <field name="room_id"/>-->
-                                        <field name="equipment_id"/>
-                                        <field name="brand"/>
+                                        <field name="equipment_id" required="1"/>
+                                        <field name="description"/>
                                         <field name="quantity"/>
                                     </tree>
                                 </field>

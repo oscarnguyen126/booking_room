@@ -1,4 +1,5 @@
-from odoo import models, fields, _
+from odoo import models, fields, _, api
+from odoo.exceptions import ValidationError
 
 
 class Room(models.Model):
@@ -11,3 +12,11 @@ class Room(models.Model):
                                  string=_("Equipment"))
     booking_ids = fields.One2many('room.booking', 'room_id')
     equipment_line_ids = fields.One2many('asset.management', 'room_id', string=_('Equipments'))
+
+    @api.constrains('name')
+    def check_duplicate(self):
+        for record in self:
+            room = self.env['room.room'].search(["&", ('name', '=', record.name), ('id', '!=', record.ids)])
+            if room:
+                if len(room) > 0:
+                    raise ValidationError('This room is existed')
