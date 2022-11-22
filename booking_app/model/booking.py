@@ -1,5 +1,5 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 from datetime import datetime
 import pytz
 
@@ -12,8 +12,8 @@ class Booking(models.Model):
     _rec_name = 'title'
 
     room_id = fields.Many2one('room.room', string=_("Meeting room"), required=True, tracking=True)
-    start_time = fields.Datetime(string=_("Start date"), tracking=True, copy=False)
-    stop_time = fields.Datetime(string=_("Stop date"), tracking=True, copy=False)
+    start_time = fields.Datetime(string=_("Start time"), tracking=True, copy=False)
+    stop_time = fields.Datetime(string=_("Stop time"), tracking=True, copy=False)
     title = fields.Char(string=_("Title"), required=True, tracking=True)
     description = fields.Text(string=_("Content"), tracking=True)
     state = fields.Selection([('booking', 'Booking'), ('confirmed', 'Confirmed'), ('cancelled', 'Cancelled')],
@@ -26,8 +26,8 @@ class Booking(models.Model):
     during = fields.Float(string=_('Using time'), store=True, compute='_compute_during_time')
     max_volume = fields.Integer(related='room_id.volume', string=_('Max volume'))
     reason = fields.Char(string=_('Input Reason'), readonly=True)
-    attached_file = fields.Binary(string=_('Attached File'))
-    note = fields.Text(string=_('Requirements'))
+    attachment_file = fields.Binary(string=_('Attachment File'))
+    requirements = fields.Text(string=_('Requirements'))
     edit_checker = fields.Boolean(default=True)
     cancel_booking_time = fields.Datetime(default=datetime.now().strftime("%Y-%m-%d %H:%M"))
 
@@ -40,18 +40,10 @@ class Booking(models.Model):
             self.send_mail(type='Edited')
         return res
 
-    @api.constrains('start_time', 'stop_time')
-    def check_duplicate(self):
-        for record in self:
-            bookings = self.env['room.booking'].search(["&", ('room_id', '=', record.room_id.id), ('id', '!=', record.ids)])
-            for book in bookings:
-                if book.start_time <= record.start_time < book.stop_time or book.start_time < record.stop_time < book.stop_time:
-                    raise ValidationError(_('The room has been booked!'))
-
     @api.constrains('start_time')
     def block_booking_in_past(self):
         if self.start_time < datetime.now():
-            raise ValidationError(_("The start time must be greater than now"))
+            raise UserError(_("The start time must be greater than now"))
 
     @api.constrains('start_time', 'stop_time')
     def check_stop_time(self):
@@ -113,7 +105,7 @@ class Booking(models.Model):
                 'force_email': True,
             }
             mail_compose = self.env['mail.compose.message'].with_context(ctx).create(
-                {'subject': '[TB] HỦY LỊCH HỌP - ' + self.title})
+                {'subject': '[NOTIFY] CANCEL MEETING - ' + self.title})
             mail_compose.action_send_mail()
         elif type == 'confirmed':
             view = self.env['ir.ui.view'].browse(
@@ -133,7 +125,7 @@ class Booking(models.Model):
                 'force_email': True,
             }
             mail_compose = self.env['mail.compose.message'].with_context(ctx).create(
-                {'subject': '[TB] LỊCH HỌP - ' + self.title})
+                {'subject': '[NOTIFY] NEW MEETING - ' + self.title})
             mail_compose.action_send_mail()
         else:
             view = self.env['ir.ui.view'].browse(
@@ -153,7 +145,7 @@ class Booking(models.Model):
                 'force_email': True,
             }
             mail_compose = self.env['mail.compose.message'].with_context(ctx).create(
-                {'subject': '[TB] THAY ĐỔI LỊCH HỌP - ' + self.title})
+                {'subject': '[NOTIFY] RESCHEDULE MEETING - ' + self.title})
             mail_compose.action_send_mail()
 
     def cancel_button(self):
@@ -190,4 +182,14 @@ class Booking(models.Model):
     def limit_time(self):
         for record in self:
             if record.stop_time.strftime('%m/%d/%Y') > record.start_time.strftime('%m/%d/%Y'):
-                raise ValidationError('Using time is too long')
+                raise ValidationError(_('Using time is too long'))
+
+    @api.constrains('start_time', 'stop_time')
+    def check_duplicate(self):
+        for record in self:
+            bookings = self.env['room.booking'].search(["&", ('room_id', '=', record.room_id.id), ('id', '!=', record.ids)])
+            if bookings:
+                for book in bookings:
+                    if book.start_time and book.stop_time:
+                        if book.start_time <= record.start_time < book.stop_time or book.start_time < record.stop_time < book.stop_time:
+                            raise ValidationError(_('The room has been booked!'))
