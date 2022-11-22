@@ -25,7 +25,7 @@ class Booking(models.Model):
                                    string=_("Participants"))
     during = fields.Float(string=_('Using time'), store=True, compute='_compute_during_time')
     max_volume = fields.Integer(related='room_id.volume', string=_('Max volume'))
-    reason = fields.Char(string=_('Input Reason'), readonly=True)
+    reason = fields.Text(string=_('Input Reason'), readonly=True)
     attachment_file = fields.Binary(string=_('Attachment File'))
     requirements = fields.Text(string=_('Requirements'))
     edit_checker = fields.Boolean(default=True)

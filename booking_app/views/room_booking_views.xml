@@ -7,24 +7,20 @@
             <field name="arch" type="xml">
                 <form string="booking" delete="false">
                     <header>
-<!--                        <button type="object" name="edit_button" string="Sửa đổi thông tin"-->
-<!--                                attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>-->
                         <button type="object" name="confirm_button" string="Confirm"
                                 attrs="{'invisible': [('state','in',('confirmed','cancelled'))]}"/>
                         <button type="object" name="cancel_button" string="Cancel"
                                 attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
-<!--                        <button type="object" name="back_to_draft" string="Back to draft"-->
-<!--                                attrs="{'invisible': [('state','!=','cancelled')]}"/>-->
                     </header>
                     <sheet>
                         <group>
                             <group>
                                 <field name="title" attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="room_id"
-                                       options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"
+                                       options="{'no_create': True, 'no_create_edit': True}"
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
-                                <field name="max_volume" attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="max_volume" readonly="1"/>
                                 <field name="start_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="stop_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
                             </group>
@@ -46,8 +42,7 @@
                             </group>
                         </group>
                         <group>
-                            <field name="description"/>
-<!--                            <field name="edit_checker"/>-->
+                            <field name="description" attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                         </group>
                     </sheet>
                     <div class="oe_chatter">
@@ -86,7 +81,7 @@
                           quick_add="False" color="room_id" event_limit="5" event_open_popup="True" delete="false">
                     <field name="room_id" filters="1"/>
                     <field name="requester" />
-                    <field name="state" filters="1"/>
+                    <field name="state"/>
                 </calendar>
             </field>
         </record>
@@ -123,6 +118,7 @@
                    <group expand="0" string="Group By">
                         <filter string="Meeting room" name="groupby_room" domain="[]" context="{'group_by':'room_id'}"/>
                         <filter string="Department" name="groupby_department" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter string="State" name="groupby_state" domain="[]" context="{'group_by':'state'}"/>
                    </group>
                 </search>
             </field>
@@ -132,7 +128,14 @@
         <record id="booking_action" model="ir.actions.act_window">
             <field name="name">Booking calendar</field>
             <field name="res_model">room.booking</field>
-            <field name="view_mode">calendar,tree,form,pivot</field>
+            <field name="view_mode">calendar,tree,form</field>
+            <field name="search_view_id" ref="view_room_booking_search"/>
+        </record>
+
+        <record id="report_action" model="ir.actions.act_window">
+            <field name="name">Booking calendar</field>
+            <field name="res_model">room.booking</field>
+            <field name="view_mode">pivot</field>
             <field name="search_view_id" ref="view_room_booking_search"/>
         </record>
 

@@ -4,23 +4,17 @@
     <menuitem id="room_booking_menu_action" name="Booking list"
               action="booking_app.booking_action"
               parent="booking_app.room_booking"
-              sequence="25"/>
+              sequence="20"/>
     <menuitem id="list_meeting_room" name="Meeting room"
               parent="booking_app.room_booking"
               action="booking_app.list_room"
-              sequence="30"/>
-    <menuitem id="equipments" name="Equipment"
-              parent="booking_app.room_booking"
-              sequence="35"/>/>
+              sequence="25"/>
     <menuitem id="equipment" name="Equipment menu"
-              parent="booking_app.equipments"
-              action="booking_app.list_equipments"/>
-    <menuitem id="list_brand" name="Brands menu"
-              parent="booking_app.equipments"
-              action="booking_app.list_brands"
-              groups="booking_app.booking_group_admin"/>
-<!--    <menuitem id="list_colors" name="Colors menu"-->
-<!--              parent="booking_app.equipments"-->
-<!--              action="booking_app.list_color"-->
-<!--              groups="booking_app.booking_group_admin"/>-->
+              parent="booking_app.room_booking"
+              action="booking_app.list_equipments"
+              sequence="30"/>
+    <menuitem id="report" name="Report"
+              parent="booking_app.room_booking"
+              action="booking_app.report_action"
+              sequence="40"/>
 </odoo>

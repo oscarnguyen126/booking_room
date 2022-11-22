@@ -53,14 +53,14 @@
                         </span>
                     </strong>
                 </div>
-                <div>
-                    <spanp>Attachment file:</spanp>
-                    <strong>
-                        <span>
-                            <t t-out="object.attachment_file"/>
-                        </span>
-                    </strong>
-                </div>
+<!--                <div>-->
+<!--                    <spanp>Attachment file:</spanp>-->
+<!--                    <strong>-->
+<!--                        <span>-->
+<!--                            <t t-out="object.attachment_file"/>-->
+<!--                        </span>-->
+<!--                    </strong>-->
+<!--                </div>-->
             </div>
             <br></br><br></br>
             <p>This is an automated message - please do not reply directly to this email</p>

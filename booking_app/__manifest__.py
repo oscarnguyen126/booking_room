@@ -19,8 +19,6 @@
         'views/room_views.xml',
         'views/room_booking_views.xml',
         'views/room_equip_views.xml',
-        'views/equipment_brands.xml',
-        'views/equipment_color.xml',
         'views/asset_management_view.xml',
         'wizard/booking_cancel_wizard_view.xml',
         'data/email_template.xml',
