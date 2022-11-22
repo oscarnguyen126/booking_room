@@ -2,15 +2,14 @@
 <odoo>
     <data noupdate="0">
         <template id="edit_email_template">
-            <h5>Thông báo thay đổi lịch họp</h5>
+            <h5>Reschedule meeting</h5>
             <div>
                 <h3>
                     <t t-out="object.title"></t>
                 </h3>
                 <br></br>
                 <div>
-                    <span>Lịch họp của bạn đã bị thay đổi vào ngày:
-                    </span>
+                    <span>Your meeting has been updated on:</span>
                     <strong>
                         <span>
                             <t t-out="object.cancel_booking_time" t-options="{'widget': 'datetime'}"/>
@@ -18,9 +17,7 @@
                     </strong>
                 </div>
                 <div>
-                    <span>
-                        Địa điểm phòng họp: :
-                    </span>
+                    <span>Location:</span>
                     <strong>
                         <span>
                             <t t-out="object.room_id.name"/>
@@ -28,28 +25,28 @@
                     </strong>
                 </div>
                 <div>
-                    <span>Người tham gia:</span>
+                    <span>Participants:</span>
                     <strong>
                         <span>
-                            <t t-out="object.requester.name"/>
+                            <t t-out="object.requester.name"/>,
                         </span>
                         <span>
                             <t t-foreach="object.partner_ids" t-as="o">
-                                <t t-esc="o.name"/>
+                                <t t-esc="o.name"/>,
                             </t>
                         </span>
                     </strong>
                 </div>
                 <div>
-                    <spanp>Yêu cầu chuẩn bị:</spanp>
+                    <spanp>Requirements:</spanp>
                     <strong>
                         <span>
-                            <t t-out="object.note"/>
+                            <t t-out="object.requirements"/>
                         </span>
                     </strong>
                 </div>
                 <div>
-                    <spanp>Nội dung buổi họp:</spanp>
+                    <spanp>Content:</spanp>
                     <strong>
                         <span>
                             <t t-out="object.description"/>
@@ -57,17 +54,17 @@
                     </strong>
                 </div>
                 <div>
-                    <spanp>File đính kèm:</spanp>
+                    <spanp>Attachment file:</spanp>
                     <strong>
                         <span>
-                            <t t-out="object.attached_file"/>
+                            <t t-out="object.attachment_file"/>
                         </span>
                     </strong>
                 </div>
             </div>
             <br></br><br></br>
-            <p>Đây là email tự động từ hệ thống vui lòng không phản hồi email này</p>
-            <p>Trân trọng,
+            <p>This is an automated message - please do not reply directly to this email</p>
+            <p>Best regards,
             </p>
         </template>
     </data>

@@ -40,6 +40,10 @@
                     <field name="brand_id"/>
                     <field name="description"/>
                     <field name="color"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Equipment's name" name="groupby_name" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Brand" name="groupby_brand_id" domain="[]" context="{'group_by':'brand_id'}"/>
+                   </group>
                 </search>
             </field>
         </record>

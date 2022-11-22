@@ -2,7 +2,7 @@
 <odoo>
     <data noupdate="0">
         <template id="cancel_email_template">
-            <h5>Thông báo hủy lịch họp</h5>
+            <h5>Cancellation email</h5>
             <div>
                 <h3>
                     <t t-out="object.title"></t>
@@ -10,7 +10,7 @@
                 <br></br>
                 <div>
                     <span>
-                        Địa điểm:
+                        Location:
                     </span>
                     <strong>
                         <span>
@@ -19,7 +19,7 @@
                     </strong>
                 </div>
                 <div>
-                    <spanp>Cuộc họp của bạn bị hủy vào ngày:</spanp>
+                    <span>Your meeting room has been cancelled on:</span>
                     <strong>
                         <span>
                             <t t-out="object.cancel_booking_time" t-options="{'widget': 'datetime'}"/>
@@ -27,7 +27,7 @@
                     </strong>
                 </div>
                 <div>
-                    <spanp>Nguyên nhân hủy lịch họp:</spanp>
+                    <span>Reason:</span>
                     <strong>
                         <span>
                             <t t-out="object.reason"/>
@@ -36,8 +36,8 @@
                 </div>
             </div>
             <br></br><br></br>
-            <p>Đây là email tự động từ hệ thống vui lòng không phản hồi email này</p>
-            <p>Trân trọng,
+            <p>This is an automated message - please do not reply directly to this email</p>
+            <p>Best regards,
             </p>
         </template>
     </data>

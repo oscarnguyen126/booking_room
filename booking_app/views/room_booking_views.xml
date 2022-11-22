@@ -9,9 +9,9 @@
                     <header>
 <!--                        <button type="object" name="edit_button" string="Sửa đổi thông tin"-->
 <!--                                attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>-->
-                        <button type="object" name="confirm_button" string="Xác nhận"
+                        <button type="object" name="confirm_button" string="Confirm"
                                 attrs="{'invisible': [('state','in',('confirmed','cancelled'))]}"/>
-                        <button type="object" name="cancel_button" string="Hủy lịch họp"
+                        <button type="object" name="cancel_button" string="Cancel"
                                 attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
 <!--                        <button type="object" name="back_to_draft" string="Back to draft"-->
@@ -34,15 +34,15 @@
                                 <field name="department_id"
                                        readonly="1"/>
                                 <field name="partner_ids" widget="many2many_tags_email"
-                                       placeholder="Thêm người tham gia"
+                                       placeholder="Add participants"
                                        context="{'force_email':True, 'show_email':True}"
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
-                                <field name="attached_file"
+                                <field name="attachment_file"
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
-                                <field name="note"
+                                <field name="requirements"
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="reason"
-                                attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
+                                attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
                             </group>
                         </group>
                         <group>
@@ -82,8 +82,8 @@
             <field name="name">room.booking.calendar</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <calendar string="Đặt phòng họp" date_start="start_time" date_stop="stop_time" mode="month"
-                          quick_add="False" color="room_id" event_limit="5" event_open_popup="True" delete="false" form_view_id="%(booking_app.room_booking_form)d">
+                <calendar string="Booking" date_start="start_time" date_stop="stop_time" mode="month"
+                          quick_add="False" color="room_id" event_limit="5" event_open_popup="True" delete="false">
                     <field name="room_id" filters="1"/>
                     <field name="requester" />
                     <field name="state" filters="1"/>
@@ -113,13 +113,17 @@
                     <field name="title"/>
                     <field name="room_id"/>
                     <field name="requester"/>
-                    <filter name="requester_filter" string="Lịch của tôi" domain="[('requester','=', uid)]"/>
+                    <filter name="requester_filter" string="My books" domain="[('requester','=', uid)]"/>
                     <field name="department_id"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>
                     <field name="description"/>
                     <field name="partner_ids"/>
                     <field name="state"/>
+                   <group expand="0" string="Group By">
+                        <filter string="Meeting room" name="groupby_room" domain="[]" context="{'group_by':'room_id'}"/>
+                        <filter string="Department" name="groupby_department" domain="[]" context="{'group_by':'department_id'}"/>
+                   </group>
                 </search>
             </field>
         </record>

@@ -12,7 +12,7 @@
                             <field name="volume"/>
                         </group>
                         <notebook>
-                            <page string="Thiết bị">
+                            <page string="Equipments">
                                 <field name="equipment_line_ids">
                                     <tree editable="bottom">
 <!--                                        <field name="room_id"/>-->

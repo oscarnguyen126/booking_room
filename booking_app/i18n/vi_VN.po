@@ -6,20 +6,76 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-16 01:24+0000\n"
-"PO-Revision-Date: 2022-11-16 09:22+0700\n"
+"POT-Creation-Date: 2022-11-22 07:18+0000\n"
+"PO-Revision-Date: 2022-11-22 07:18+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.2.1\n"
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid ""
+"<span>\n"
+"                        Location:\n"
+"                    </span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "<span>Attachment file:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "<span>Content:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "<span>Participants:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
+msgid "<span>Reason:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "<span>Requirements:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "<span>Time:</span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+msgid ""
+"<span>Your meeting has been updated on:\n"
+"                    </span>"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
+msgid "<span>Your meeting room has been cancelled on:</span>"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__message_needaction
 msgid "Action Needed"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
+msgid "Add participants"
 msgstr ""
 
 #. module: booking_app
@@ -33,25 +89,33 @@ msgid "Asset Management"
 msgstr ""
 
 #. module: booking_app
-#: model:ir.model.fields,field_description:booking_app.field_room_booking__attached_file
-msgid "Attached File"
-msgstr ""
-
-#. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
-msgid "Back to draft"
-msgstr "Đặt lại lịch họp"
+#: model:ir.model.fields,field_description:booking_app.field_room_booking__attachment_file
+msgid "Attachment File"
+msgstr "Tệp đính kèm"
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+msgid "Attachment file:"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
+msgid "Best regards,"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_room__booking_ids
 #: model:ir.model.fields.selection,name:booking_app.selection__room_booking__state__booking
 #: model:ir.module.category,name:booking_app.module_booking_category
 #: model_terms:ir.ui.view,arch_db:booking_app.booking_pivot
+#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_calendar
 msgid "Booking"
 msgstr "Đặt phòng họp"
 
@@ -67,7 +131,9 @@ msgid "Booking list"
 msgstr "Danh sách đặt phòng"
 
 #. module: booking_app
+#: model:ir.model.fields,field_description:booking_app.field_asset_management__brand
 #: model:ir.model.fields,field_description:booking_app.field_room_equipments__brand_id
+#: model_terms:ir.ui.view,arch_db:booking_app.view_equipment_search
 msgid "Brand"
 msgstr "Nhãn hiệu"
 
@@ -82,14 +148,20 @@ msgid "Brands menu"
 msgstr "Nhãn hiệu"
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Bạn có lịch họp mới"
+#: model_terms:ir.ui.view,arch_db:booking_app.booking_cancel_wizard_form
+#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
+msgid "Cancel"
+msgstr "Hủy"
+
+#. module: booking_app
+#: model:ir.model.fields,field_description:booking_app.field_room_booking__cancel_booking_time
+msgid "Cancel Booking Time"
 msgstr ""
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.booking_cancel_wizard_form
-msgid "Cancel"
-msgstr "Hủy"
+#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
+msgid "Cancellation email"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields.selection,name:booking_app.selection__room_booking__state__cancelled
@@ -105,6 +177,7 @@ msgstr "Màu"
 
 #. module: booking_app
 #: model_terms:ir.ui.view,arch_db:booking_app.booking_cancel_wizard_form
+#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
 msgid "Confirm"
 msgstr "Xác nhận"
 
@@ -117,6 +190,11 @@ msgstr "Đã xác nhận"
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__description
 msgid "Content"
 msgstr "Nội dung cuộc họp"
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+msgid "Content:"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_asset_management__create_uid
@@ -142,8 +220,9 @@ msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__department_id
+#: model_terms:ir.ui.view,arch_db:booking_app.view_room_booking_search
 msgid "Department"
-msgstr "Phòng, ban"
+msgstr "Phòng ban"
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_asset_management__display_name
@@ -176,8 +255,14 @@ msgid "Equipment menu"
 msgstr "Danh sách thiết bị"
 
 #. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.view_equipment_search
+msgid "Equipment's name"
+msgstr "Tên thiết bị"
+
+#. module: booking_app
 #: model:ir.model,name:booking_app.model_room_equipments
 #: model:ir.model.fields,field_description:booking_app.field_room_room__equipment_line_ids
+#: model_terms:ir.ui.view,arch_db:booking_app.room_form
 msgid "Equipments"
 msgstr "Thiết bị"
 
@@ -192,13 +277,14 @@ msgid "Followers (Partners)"
 msgstr ""
 
 #. module: booking_app
-#: model:ir.model.fields,field_description:booking_app.field_room_booking__has_message
-msgid "Has Message"
+#: model_terms:ir.ui.view,arch_db:booking_app.view_equipment_search
+#: model_terms:ir.ui.view,arch_db:booking_app.view_room_booking_search
+msgid "Group By"
 msgstr ""
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
-msgid "Hủy lịch họp"
+#: model:ir.model.fields,field_description:booking_app.field_room_booking__has_message
+msgid "Has Message"
 msgstr ""
 
 #. module: booking_app
@@ -273,11 +359,6 @@ msgid "List Equipment"
 msgstr "Danh sách thiết bị"
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.view_room_booking_search
-msgid "Lịch của tôi"
-msgstr ""
-
-#. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -293,6 +374,7 @@ msgstr "Sức chứa tối đa"
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__room_id
 #: model:ir.model.fields,field_description:booking_app.field_room_room__name
 #: model:ir.ui.menu,name:booking_app.list_meeting_room
+#: model_terms:ir.ui.view,arch_db:booking_app.view_room_booking_search
 msgid "Meeting room"
 msgstr "Phòng họp"
 
@@ -307,6 +389,11 @@ msgid "Messages"
 msgstr ""
 
 #. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.view_room_booking_search
+msgid "My books"
+msgstr ""
+
+#. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_equipment_brands__name
 #: model:ir.model.fields,field_description:booking_app.field_room_equipment_color__name
 #: model:ir.model.fields,field_description:booking_app.field_room_equipments__name
@@ -314,15 +401,8 @@ msgid "Name"
 msgstr "Tên"
 
 #. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-msgid "Nguyên nhân hủy lịch họp:"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
 #: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Người tham gia:"
+msgid "New meeting"
 msgstr ""
 
 #. module: booking_app
@@ -376,9 +456,19 @@ msgid "Requester"
 msgstr "Người đặt phòng"
 
 #. module: booking_app
-#: model:ir.model.fields,field_description:booking_app.field_room_booking__note
+#: model:ir.model.fields,field_description:booking_app.field_room_booking__requirements
 msgid "Requirements"
-msgstr "Yêu cầu chuẩn bị"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+msgid "Requirements:"
+msgstr ""
+
+#. module: booking_app
+#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
+msgid "Reschedule meeting"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model,name:booking_app.model_room_room
@@ -398,8 +488,8 @@ msgstr "Thông số kỹ thuật"
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__start_time
-msgid "Start date"
-msgstr "Thời gian bắt đầu"
+msgid "Start time"
+msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__state
@@ -408,52 +498,21 @@ msgstr "Trạng thái"
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__stop_time
-msgid "Stop date"
-msgstr "Thời gian kết thúc"
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
-msgid "Sửa đổi thông tin"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_form
-msgid "Thiết bị"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
-msgid "Thêm người tham gia"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-msgid "Thông báo hủy lịch họp"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
-msgid "Thông báo thay đổi lịch họp"
+msgid "Stop time"
 msgstr ""
 
 #. module: booking_app
 #: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
 #: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
 #: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Thời gian:"
+msgid ""
+"This is an automated message - please do not reply directly to this email"
 msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__title
 msgid "Title"
 msgstr "Tiêu đề cuộc họp"
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Trân trọng,"
-msgstr ""
 
 #. module: booking_app
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__message_unread
@@ -474,16 +533,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:booking_app.field_room_booking__during
 msgid "Using time"
 msgstr "Thời gian sử dụng"
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_form
-msgid "Xác nhận"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Yêu cầu chuẩn bị:"
-msgstr ""
 
 #. module: booking_app
 #: model:ir.model,name:booking_app.model_asset_management
@@ -508,23 +557,4 @@ msgstr ""
 #. module: booking_app
 #: model:ir.model,name:booking_app.model_room_equipment_color
 msgid "room.equipment.color"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Đây là email tự động từ hệ thống vui lòng không phản hồi email này"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.room_booking_calendar
-msgid "Đặt phòng họp"
-msgstr ""
-
-#. module: booking_app
-#: model_terms:ir.ui.view,arch_db:booking_app.cancel_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.edit_email_template
-#: model_terms:ir.ui.view,arch_db:booking_app.template_email_send_booking
-msgid "Địa điểm:"
 msgstr ""
