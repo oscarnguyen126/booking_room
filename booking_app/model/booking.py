@@ -30,13 +30,31 @@ class Booking(models.Model):
     requirements = fields.Text(string=_('Requirements'))
     edit_checker = fields.Boolean(default=True)
     cancel_booking_time = fields.Datetime(default=datetime.now().strftime("%Y-%m-%d %H:%M"))
+    note_change_email = fields.Text()
 
     def cancel_time(self):
         self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
+    def chang_email(self, vals):
+        field_change = ''
+        for value in vals:
+            # name_string = self._fields[value].string
+            if value == 'title':
+                field_change += ' - Title: ' + self.title + ' -> ' + vals.get('title') + ' /n '
+            if value == 'start_time':
+                field_change += ' - Start Time: ' + self.start_time.strftime('%d-%m-%Y') + ' -> ' + vals.get('start_time')
+            # self.with_context(check_change_email=True).note_change_email = (self.note_change_email or '') + name_string + ': ' + str(vals.get(value)) + ' /n '
+        self.with_context(check_change_email=True).note_change_email = field_change
+
+
     def write(self, vals):
-        res = super().write(vals)
-        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "partner_ids", "attached_file", "note"] for field in vals) and self.state == 'confirmed':
+        # dict_fields =
+        if not self._context.get('check_change_email'):
+            self.chang_email(vals)
+        res = super(Booking, self).write(vals)
+        if self.start_time < datetime.now():
+            raise ValidationError('You can not change the information anymore')
+        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "partner_ids", "attachment_file", "note"] for field in vals) and self.state == 'confirmed':
             self.send_mail(type='Edited')
         return res
 
@@ -124,6 +142,14 @@ class Booking(models.Model):
                 'proforma': self.env.context.get('proforma', False),
                 'force_email': True,
             }
+            if self.attachment_file:
+                attachment = self.env['ir.attachment'].search([
+                    ('res_model', '=', self._name),
+                    ('res_id', '=', self.id),
+                    ('res_field', '=', 'attachment_file'),
+                ])
+                if attachment:
+                    ctx['default_attachment_ids'] = [attachment.id]
             mail_compose = self.env['mail.compose.message'].with_context(ctx).create(
                 {'subject': '[NOTIFY] NEW MEETING - ' + self.title})
             mail_compose.action_send_mail()
@@ -144,13 +170,20 @@ class Booking(models.Model):
                 'proforma': self.env.context.get('proforma', False),
                 'force_email': True,
             }
+            if self.attachment_file:
+                attachment = self.env['ir.attachment'].search([
+                    ('res_model', '=', self._name),
+                    ('res_id', '=', self.id),
+                    ('res_field', '=', 'attachment_file'),
+                ])
+                if attachment:
+                    ctx['default_attachment_ids'] = [attachment.id]
             mail_compose = self.env['mail.compose.message'].with_context(ctx).create(
                 {'subject': '[NOTIFY] RESCHEDULE MEETING - ' + self.title})
             mail_compose.action_send_mail()
 
     def cancel_button(self):
         action = self.env.ref('booking_app.action_input_reason_wizard').read()[0]
-        self.edit_checker = False
         self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         return action
 
@@ -163,7 +196,6 @@ class Booking(models.Model):
     def back_to_draft(self):
         for record in self:
             record.state = 'booking'
-            record.edit_checker = True
 
     @api.onchange('start_time')
     def oneday(self):

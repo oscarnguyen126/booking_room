@@ -39,6 +39,7 @@
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="reason"
                                 attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+                                <field name="note_change_email"/>
                             </group>
                         </group>
                         <group>
@@ -119,6 +120,7 @@
                         <filter string="Meeting room" name="groupby_room" domain="[]" context="{'group_by':'room_id'}"/>
                         <filter string="Department" name="groupby_department" domain="[]" context="{'group_by':'department_id'}"/>
                         <filter string="State" name="groupby_state" domain="[]" context="{'group_by':'state'}"/>
+                        <filter string="Start time" name="groupby_time" domain="[]" context="{'group_by':'start_time'}"/>
                    </group>
                 </search>
             </field>
