@@ -5,12 +5,12 @@
             <field name="name">room.booking.form</field>
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
-                <form string="booking" delete="false">
+                <form string="booking">
                     <header>
                         <button type="object" name="confirm_button" string="Confirm"
                                 attrs="{'invisible': [('state','in',('confirmed','cancelled'))]}"/>
                         <button type="object" name="cancel_button" string="Cancel"
-                                attrs="{'invisible': [('state','in',('booking','cancelled'))]}"/>
+                                attrs="{'invisible': [('state','=','cancelled')]}"/>
                         <field name="state" widget="statusbar" statusbar_visible="booking,confirmed,cancelled"/>
                     </header>
                     <sheet>
@@ -21,8 +21,8 @@
                                        options="{'no_create': True, 'no_create_edit': True}"
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="max_volume" readonly="1"/>
-                                <field name="start_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
-                                <field name="stop_time" attrs="{'required': True, 'readonly': [('state', '=', 'cancelled')]}"/>
+                                <field name="start_time" attrs="{'readonly': [('state', '=', 'cancelled')]}" required="1"/>
+                                <field name="stop_time" attrs="{'readonly': [('state', '=', 'cancelled')]}" required="1"/>
                             </group>
                             <group>
                                 <field name="requester"
@@ -39,7 +39,7 @@
                                 attrs="{'readonly': [('state', '=', 'cancelled')]}"/>
                                 <field name="reason"
                                 attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
-                                <field name="note_change_email"/>
+                                <field name="note_change_email" invisible="1"/>
                             </group>
                         </group>
                         <group>
@@ -59,7 +59,7 @@
             <field name="model">room.booking</field>
             <field name="arch" type="xml">
                 <tree decoration-muted="state == 'booking' " decoration-success="state == 'confirmed'"
-                      decoration-danger="state == 'cancelled'" delete="false">
+                      decoration-danger="state == 'cancelled'">
                     <field name="title"/>
                     <field name="start_time"/>
                     <field name="stop_time"/>

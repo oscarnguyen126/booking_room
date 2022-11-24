@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 from datetime import datetime
+from datetime import timedelta
 import pytz
 
 
@@ -31,30 +32,58 @@ class Booking(models.Model):
     edit_checker = fields.Boolean(default=True)
     cancel_booking_time = fields.Datetime(default=datetime.now().strftime("%Y-%m-%d %H:%M"))
     note_change_email = fields.Text()
+    old_room_id = fields.Many2one('room.room', string=_("Meeting room"), tracking=True)
+    old_start_time = fields.Datetime(string=_("Start time"), copy=False, default=datetime.now())
+    old_stop_time = fields.Datetime(string=_("Stop time"), copy=False, default=datetime.now())
+    old_title = fields.Char(string=_("Title"), tracking=True)
+    old_requirements = fields.Text()
 
     def cancel_time(self):
         self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    def chang_email(self, vals):
-        field_change = ''
-        for value in vals:
-            # name_string = self._fields[value].string
-            if value == 'title':
-                field_change += ' - Title: ' + self.title + ' -> ' + vals.get('title') + ' /n '
-            if value == 'start_time':
-                field_change += ' - Start Time: ' + self.start_time.strftime('%d-%m-%Y') + ' -> ' + vals.get('start_time')
-            # self.with_context(check_change_email=True).note_change_email = (self.note_change_email or '') + name_string + ': ' + str(vals.get(value)) + ' /n '
-        self.with_context(check_change_email=True).note_change_email = field_change
-
+    # def chang_email(self, vals):
+    #     field_change = ''
+    #     bookings = self.env['room.booking']
+    #     for value in vals:
+    #         # name_string = self._fields[value].string
+    #         if value == 'title':
+    #             field_change += 'Title: ' + self.title + ' -> ' + vals.get('title')
+    #         if value == 'start_time':
+    #             field_change += 'Start Time: ' + self.start_time.strftime('%d-%m-%Y %H:%M:%S') + ' -> ' + vals.get('start_time')
+    #         if value == 'stop_time':
+    #             field_change += '- Stop Time: ' + self.stop_time.strftime('%d-%m-%Y %H:%M:%S') + ' -> ' + vals.get('stop_time')
+    #         if value == 'room_id':
+    #             field_change += 'Room: ' + self.room_id.id + ' -> ' + vals.get('room_id')
+    #         if value == 'description':
+    #             field_change += 'Description: ' + self.description + ' -> ' + vals.get('description')
+    #         # self.with_context(check_change_email=True).note_change_email = (self.note_change_email or '') + name_string + ': ' + str(vals.get(value)) + ' /n '
+    #     self.with_context(check_change_email=True).note_change_email = field_change
 
     def write(self, vals):
         # dict_fields =
-        if not self._context.get('check_change_email'):
-            self.chang_email(vals)
+        # if not self._context.get('check_change_email'):
+        #     self.chang_email(vals)
+        for value in vals:
+            if value == 'title':
+                self.old_title = self.title
+                vals.get('title')
+            if value == 'room_id':
+                self.old_room_id = self.room_id.id
+                vals.get('room_id')
+            if value == 'start_time':
+                self.old_start_time = self.start_time
+                vals.get('start_time')
+            if value == 'stop_time':
+                self.old_stop_time = self.stop_time
+                vals.get('stop_time')
+            if value == 'requirements':
+                self.old_requirements = self.requirements
+                vals.get('requirements')
         res = super(Booking, self).write(vals)
-        if self.start_time < datetime.now():
-            raise ValidationError('You can not change the information anymore')
-        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "partner_ids", "attachment_file", "note"] for field in vals) and self.state == 'confirmed':
+        if self.start_time:
+            if self.start_time < datetime.now():
+                raise ValidationError('You can not change the information anymore')
+        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "requirements", "partner_ids", "attachment_file", "note"] for field in vals) and self.state == 'confirmed':
             self.send_mail(type='Edited')
         return res
 
@@ -94,6 +123,7 @@ class Booking(models.Model):
 
     def send_mail(self, type=''):
         self.ensure_one()
+        self = self.sudo()
         tz = pytz.timezone(self.env.user.tz or 'UTC')
         start_time = self.start_time
         stop_time = self.stop_time
@@ -183,6 +213,7 @@ class Booking(models.Model):
             mail_compose.action_send_mail()
 
     def cancel_button(self):
+        self = self.sudo()
         action = self.env.ref('booking_app.action_input_reason_wizard').read()[0]
         self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
         return action
@@ -201,8 +232,7 @@ class Booking(models.Model):
     def oneday(self):
         for record in self:
             if record.start_time:
-                record.stop_time = record.start_time.replace(day=record.start_time.day, month=record.start_time.month,
-                                                             year=record.start_time.year)
+                record.stop_time = record.start_time + timedelta(hours=1)
 
     @api.constrains('partner_ids')
     def check_quantity_guess(self):
@@ -214,14 +244,14 @@ class Booking(models.Model):
     def limit_time(self):
         for record in self:
             if record.stop_time.strftime('%m/%d/%Y') > record.start_time.strftime('%m/%d/%Y'):
-                raise ValidationError(_('Using time is too long'))
+                raise ValidationError(_('The start time and stop time is on different days'))
 
-    @api.constrains('start_time', 'stop_time')
+    @api.constrains('start_time', 'stop_time', 'room_id')
     def check_duplicate(self):
         for record in self:
-            bookings = self.env['room.booking'].search(["&", ('room_id', '=', record.room_id.id), ('id', '!=', record.ids)])
+            bookings = self.env['room.booking'].search(["&", ('room_id', '=', record.room_id.id), ('id', '!=', record.id)])
             if bookings:
                 for book in bookings:
-                    if book.start_time and book.stop_time:
+                    if book.start_time and book.stop_time and record.start_time and record.stop_time:
                         if book.start_time <= record.start_time < book.stop_time or book.start_time < record.stop_time < book.stop_time:
                             raise ValidationError(_('The room has been booked!'))
