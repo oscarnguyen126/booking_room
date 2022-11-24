@@ -16,42 +16,28 @@
                         </span>
                     </strong>
                 </div>
+                <p>
+                    Old room: <strong><t t-out="object.old_room_id.name"/></strong> <br></br>
+                    New room: <strong><t t-out="object.room_id.name"/></strong>
+                </p>
                 <div>
-                    <span>Location:</span>
+                    <p>Old time:
                     <strong>
                         <span>
-                            <t t-out="object.room_id.name"/>
+                            <t t-out="object.old_start_time" t-options="{'widget': 'datetime'}"/> - <t t-out="object.old_stop_time" t-options="{'widget': 'datetime'}"/>
                         </span>
                     </strong>
+                    </p>
+                    <p>New time:
+                    <strong>
+                        <span>
+                            <t t-out="object.start_time" t-options="{'widget': 'datetime'}"/> - <t t-out="object.stop_time" t-options="{'widget': 'datetime'}"/>
+                        </span>
+                    </strong>
+                    </p>
                 </div>
                 <div>
-                    <span>Participants:</span>
-                    <strong>
-                        <span>
-                            <t t-out="object.requester.name"/>,
-                        </span>
-                        <span>
-                            <t t-foreach="object.partner_ids" t-as="o">
-                                <t t-esc="o.name"/>,
-                            </t>
-                        </span>
-                    </strong>
-                </div>
-                <div>
-                    <spanp>Requirements:</spanp>
-                    <strong>
-                        <span>
-                            <t t-out="object.requirements"/>
-                        </span>
-                    </strong>
-                </div>
-                <div>
-                    <spanp>Content:</spanp>
-                    <strong>
-                        <span>
-                            <t t-out="object.description"/>
-                        </span>
-                    </strong>
+                    <p>New requirements: <strong><span><t t-out="object.requirements"/> </span></strong></p>
                 </div>
             </div>
             <br></br><br></br>

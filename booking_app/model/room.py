@@ -1,5 +1,6 @@
 from odoo import models, fields, _, api
 from odoo.exceptions import ValidationError
+import unicodedata
 
 
 class Room(models.Model):
@@ -16,7 +17,8 @@ class Room(models.Model):
     @api.constrains('name')
     def check_duplicate(self):
         for record in self:
-            room = self.env['room.room'].search(["&", ('name', '=', record.name), ('id', '!=', record.ids)])
-            if room:
-                if len(room) > 0:
-                    raise ValidationError('This room is existed')
+            rooms = self.env['room.room'].search([('id', '!=', record.ids)])
+            if rooms:
+                for room in rooms:
+                    if record.name.lower() == room.name.lower():
+                        raise ValidationError('This room is existed')
