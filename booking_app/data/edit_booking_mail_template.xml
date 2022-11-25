@@ -16,28 +16,9 @@
                         </span>
                     </strong>
                 </div>
-                <p>
-                    Old room: <strong><t t-out="object.old_room_id.name"/></strong> <br></br>
-                    New room: <strong><t t-out="object.room_id.name"/></strong>
-                </p>
                 <div>
-                    <p>Old time:
-                    <strong>
-                        <span>
-                            <t t-out="object.old_start_time" t-options="{'widget': 'datetime'}"/> - <t t-out="object.old_stop_time" t-options="{'widget': 'datetime'}"/>
-                        </span>
-                    </strong>
-                    </p>
-                    <p>New time:
-                    <strong>
-                        <span>
-                            <t t-out="object.start_time" t-options="{'widget': 'datetime'}"/> - <t t-out="object.stop_time" t-options="{'widget': 'datetime'}"/>
-                        </span>
-                    </strong>
-                    </p>
-                </div>
-                <div>
-                    <p>New requirements: <strong><span><t t-out="object.requirements"/> </span></strong></p>
+                    <p>New info: </p>
+                    <strong><span><t t-out="object.note_change_email"/> </span></strong>
                 </div>
             </div>
             <br></br><br></br>

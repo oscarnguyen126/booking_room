@@ -32,59 +32,56 @@ class Booking(models.Model):
     edit_checker = fields.Boolean(default=True)
     cancel_booking_time = fields.Datetime(default=datetime.now().strftime("%Y-%m-%d %H:%M"))
     note_change_email = fields.Text()
-    old_room_id = fields.Many2one('room.room', string=_("Meeting room"), tracking=True)
-    old_start_time = fields.Datetime(string=_("Start time"), copy=False, default=datetime.now())
-    old_stop_time = fields.Datetime(string=_("Stop time"), copy=False, default=datetime.now())
-    old_title = fields.Char(string=_("Title"), tracking=True)
-    old_requirements = fields.Text()
+
 
     def cancel_time(self):
         self.cancel_booking_time = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    # def chang_email(self, vals):
-    #     field_change = ''
-    #     bookings = self.env['room.booking']
-    #     for value in vals:
-    #         # name_string = self._fields[value].string
-    #         if value == 'title':
-    #             field_change += 'Title: ' + self.title + ' -> ' + vals.get('title')
-    #         if value == 'start_time':
-    #             field_change += 'Start Time: ' + self.start_time.strftime('%d-%m-%Y %H:%M:%S') + ' -> ' + vals.get('start_time')
-    #         if value == 'stop_time':
-    #             field_change += '- Stop Time: ' + self.stop_time.strftime('%d-%m-%Y %H:%M:%S') + ' -> ' + vals.get('stop_time')
-    #         if value == 'room_id':
-    #             field_change += 'Room: ' + self.room_id.id + ' -> ' + vals.get('room_id')
-    #         if value == 'description':
-    #             field_change += 'Description: ' + self.description + ' -> ' + vals.get('description')
-    #         # self.with_context(check_change_email=True).note_change_email = (self.note_change_email or '') + name_string + ': ' + str(vals.get(value)) + ' /n '
-    #     self.with_context(check_change_email=True).note_change_email = field_change
+    def set_timezone(self, x):
+        user_tz = self.env.user.tz or pytz.utc
+        new_date = datetime.strptime(x, "%Y-%m-%d %H:%M:%S")
+        new_date_obj = pytz.utc.localize(new_date)
+        new_date_obj = new_date_obj.astimezone(pytz.timezone(user_tz))
+        date_str = new_date_obj.strftime("%Y-%m-%d %H:%M:%S")
+        return date_str
+
+    def change_email(self, vals):
+        field_change = ''
+        for value in vals:
+            if value == 'title':
+                field_change += 'Title: ' + self.title + ' -> ' + vals.get('title')
+            if value == 'start_time':
+                field_change += "- Start Time: " + self.set_timezone(self.start_time.strftime('%Y-%m-%d %H:%M:%S')) + '=>' + self.set_timezone(vals.get('start_time'))
+            if value == 'stop_time':
+                field_change += f"- Stop Time: {self.set_timezone(self.stop_time.strftime('%Y-%m-%d %H:%M:%S'))}  =>  {self.set_timezone(vals.get('stop_time'))} \n"
+            if value == 'room_id':
+                room_booking = self.env['room.room'].browse(vals.get('room_id'))
+                field_change += '- Room: ' + self.room_id.name + ' -> ' + room_booking.name
+            if value == 'description':
+                if self.description:
+                    field_change += '- New Description: ' + self.description + ' -> ' + vals.get('description')
+                else:
+                    field_change += '- New Description: ' + vals.get('description')
+            if value == 'requirements':
+                if self.requirements:
+                    field_change += '- New requirements: ' + self.requirements + ' -> ' + vals.get('requirements')
+                else:
+                    field_change += '- New requirements: ' + vals.get('requirements')
+
+
+            # self.with_context(check_change_email=True).note_change_email = (self.note_change_email or '') + name_string + ': ' + str(vals.get(value)) + ' /n '
+        self.with_context(check_change_email=True).note_change_email = field_change
 
     def write(self, vals):
         # dict_fields =
-        # if not self._context.get('check_change_email'):
-        #     self.chang_email(vals)
-        for value in vals:
-            if value == 'title':
-                self.old_title = self.title
-                vals.get('title')
-            if value == 'room_id':
-                self.old_room_id = self.room_id.id
-                vals.get('room_id')
-            if value == 'start_time':
-                self.old_start_time = self.start_time
-                vals.get('start_time')
-            if value == 'stop_time':
-                self.old_stop_time = self.stop_time
-                vals.get('stop_time')
-            if value == 'requirements':
-                self.old_requirements = self.requirements
-                vals.get('requirements')
-        res = super(Booking, self).write(vals)
+        if not self._context.get('check_change_email'):
+            self.change_email(vals)
         if self.start_time:
             if self.start_time < datetime.now():
                 raise ValidationError('You can not change the information anymore')
-        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "requirements", "partner_ids", "attachment_file", "note"] for field in vals) and self.state == 'confirmed':
+        if any(field in ['room_id', 'start_time', "stop_time", "title", "description", "requirements", "partner_ids", "note"] for field in vals) and self.state == 'confirmed':
             self.send_mail(type='Edited')
+        res = super(Booking, self).write(vals)
         return res
 
     @api.constrains('start_time')
